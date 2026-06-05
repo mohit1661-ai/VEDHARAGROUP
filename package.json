@@ -1,0 +1,24 @@
+{
+  "name": "vedhara-group-website",
+  "version": "1.0.0",
+  "description": "Premium luxury real estate and investment website for Vedhara Group",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 8000 -c-1",
+    "build": "echo 'Build script - add your build tool here'",
+    "optimize-images": "imagemin assets/images/** --out-dir=assets/images-optimized"
+  },
+  "keywords": [
+    "real estate",
+    "luxury",
+    "investment",
+    "premium",
+    "property"
+  ],
+  "author": "Vedhara Group",
+  "license": "© 2024 Vedhara Group",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "imagemin-cli": "^7.0.0"
+  }
+}

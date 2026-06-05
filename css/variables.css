@@ -1,0 +1,99 @@
+:root {
+  /* Color Palette */
+  --color-primary: #1B3A5C;
+  --color-primary-dark: #0F2340;
+  --color-primary-light: #2D5F4F;
+  --color-accent: #C9A961;
+  --color-accent-light: #E8D5B5;
+  --color-accent-highlight: #F0E6D2;
+  
+  --color-white: #FFFFFF;
+  --color-white-warm: #F9F8F6;
+  --color-beige: #F3EFE7;
+  --color-grey-light: #E8E5E0;
+  --color-grey-medium: #6B6B6B;
+  --color-text: #2C2C2C;
+  --color-text-secondary: #6B6B6B;
+  
+  --color-success: #2D5F4F;
+  --color-error: #E74C3C;
+  --color-warning: #F39C12;
+  --color-info: #1B3A5C;
+  
+  /* Typography */
+  --font-heading: 'Playfair Display', serif;
+  --font-subheading: 'Montserrat', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  
+  --font-size-h1: 64px;
+  --font-size-h2: 48px;
+  --font-size-h3: 32px;
+  --font-size-h4: 24px;
+  --font-size-h5: 18px;
+  --font-size-body: 16px;
+  --font-size-small: 14px;
+  --font-size-xs: 12px;
+  
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.4;
+  --line-height-relaxed: 1.6;
+  --line-height-loose: 1.8;
+  
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 80px;
+  --space-5xl: 96px;
+  --space-6xl: 120px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(27, 58, 92, 0.04);
+  --shadow-md: 0 4px 12px rgba(27, 58, 92, 0.06);
+  --shadow-lg: 0 4px 16px rgba(27, 58, 92, 0.08);
+  --shadow-xl: 0 8px 24px rgba(27, 58, 92, 0.15);
+  --shadow-2xl: 0 12px 32px rgba(27, 58, 92, 0.2);
+  --shadow-gold: 0 8px 24px rgba(201, 169, 97, 0.2);
+  
+  /* Transitions */
+  --transition-quick: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-smooth: 0.4s ease;
+  --transition-slow: 0.6s ease;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+  
+  /* Container */
+  --container-width-mobile: calc(100% - 32px);
+  --container-width-tablet: 700px;
+  --container-width-desktop: 1000px;
+  --container-width-large: 1200px;
+  --container-max: 1400px;
+  
+  --spacing-horizontal-mobile: 16px;
+  --spacing-horizontal-tablet: 40px;
+  --spacing-horizontal-desktop: 60px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-quick: 0s;
+    --transition-normal: 0s;
+    --transition-smooth: 0s;
+    --transition-slow: 0s;
+  }
+}
