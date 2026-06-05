@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About Vedhara Group - Premier Real Estate Developer">
+    <title>About Us - Vedhara Group</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/images/logo.svg" alt="Vedhara Group" class="logo">
+                <span class="logo-text">VEDHARA<br><span class="logo-sub">GROUP</span></span>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="projects.html" class="nav-link">Projects</a></li>
+                <li><a href="about.html" class="nav-link active">About</a></li>
+                <li><a href="investments.html" class="nav-link">Investments</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="btn btn-primary nav-cta" data-modal="consultation">Schedule Consultation</button>
+        </div>
+    </nav>
+
+    <section class="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content scroll-fade-in">
+                    <span class="section-label">Our Story</span>
+                    <h2 class="section-title">25+ Years of Excellence in Real Estate</h2>
+                    <p class="about-text">
+                        Founded in 1998, Vedhara Group has established itself as India's most trusted luxury real estate developer. Our journey began with a simple vision: to create premium properties that stand the test of time and generate wealth for our investors.
+                    </p>
+                    <p class="about-text">
+                        Over the past two decades, we have delivered 250+ successful projects, managed investment portfolios worth $2.5B+, and maintained a 98% client satisfaction rate. Our expertise spans ultra-premium residential, commercial, and mixed-use developments across India's top markets.
+                    </p>
+                    <div class="highlight-box">
+                        <p>"Our commitment to transparency, quality, and investor returns has made us the preferred choice for discerning investors and high-net-worth individuals."</p>
+                    </div>
+                </div>
+                <div class="about-image scroll-fade-in">
+                    <img src="assets/images/about-heritage.jpg" alt="Vedhara Group Heritage" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-overlay"></div>
+        <div class="container cta-content">
+            <h2>Experience Vedhara Excellence</h2>
+            <p>Schedule a personal consultation to learn how we can help build your wealth portfolio.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-cta-primary" data-modal="consultation">Schedule Consultation</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <img src="assets/images/logo-white.svg" alt="Vedhara Group" class="footer-logo-img">
+                    </div>
+                    <p class="footer-desc">Premium real estate and investment expertise since 1998.</p>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="investments.html">Investments</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Investor Guide</a></li>
+                        <li><a href="#">Market Insights</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Get In Touch</h4>
+                    <p class="footer-email">info@vedharagroup.com</p>
+                    <button class="btn btn-footer-cta" data-modal="consultation">Send Inquiry</button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2024 Vedhara Group. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal" id="consultationModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('consultation')">&times;</button>
+            <h2>Schedule Your Consultation</h2>
+            <form class="consultation-form" id="consultationForm">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email Address" required>
+                <input type="tel" placeholder="Phone Number" required>
+                <button type="submit" class="btn btn-primary btn-block">Get Exclusive Access</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/utilities.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/forms.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
