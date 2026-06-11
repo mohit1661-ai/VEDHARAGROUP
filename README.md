@@ -2,7 +2,7 @@
 
 ## 🏢 Project Overview
 
-A luxury, high-end website for Vedhara Group - India's premier real estate developer specializing in ultra-premium residential and commercial properties.
+A luxury, high-end website for Vedhara Group - India's premier real estate consultant specializing in ultra-premium residential and commercial properties.
 
 ### Key Features
 
@@ -192,13 +192,13 @@ Edit HTML files directly
 ## 📞 Contact & Support
 
 For inquiries or support:
-- Email: info@vedharagroup.com
-- Phone: +91-XXXX-XXXX-XXXX
+- Email: contact@vedharagroup.com
+- Phone: +91-9810647063
 - Website: www.vedharagroup.com
 
 ## 📜 License
 
-Copyright © 2024 Vedhara Group. All rights reserved.
+Copyright © 2026 Vedhara Group. All rights reserved.
 
 ---
 
