@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vedhara Group — Part III: All Sections, Blog & Final Implementation</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1B2A4A;--navy2:#111D35;--gold:#C4A052;--gold2:#D4B06A;--gold-pale:#F0E0B8;
+  --pearl:#FDFCF9;--ivory:#F8F5EF;--champ:#F2EBD9;--mist:#EDE9E2;--fog:#F5F3EF;
+  --body:#3A3D4A;--muted:#7A7E8E;
+  --ff:'Playfair Display',serif;--fb:'Raleway',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--pearl);color:var(--body);line-height:1.6;overflow-x:hidden;}
+
+.cover{background:var(--navy2);padding:3rem 3rem;text-align:center;border-bottom:1px solid rgba(196,160,82,0.2);position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(196,160,82,0.02) 60px,rgba(196,160,82,0.02) 61px);}
+.cover img{height:65px;margin:0 auto 1.25rem;position:relative;}
+.cover-eye{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;display:block;position:relative;}
+.cover-h{font-family:var(--ff);font-size:clamp(26px,4vw,44px);font-weight:600;color:#FDFAF5;margin-bottom:.5rem;letter-spacing:-.01em;position:relative;}
+.cover-h em{font-style:italic;color:var(--gold2);}
+.cover-sub{font-size:13px;color:rgba(232,234,240,0.4);max-width:600px;margin:0 auto 1.75rem;line-height:1.7;position:relative;}
+.pills{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;position:relative;}
+.pill{font-size:9.5px;padding:3px 10px;border:1px solid rgba(196,160,82,0.2);color:rgba(232,234,240,0.4);}
+
+nav.tnav{position:sticky;top:0;z-index:100;background:rgba(253,252,249,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(27,42,74,.1);padding:.65rem 2.5rem;display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;}
+nav.tnav::-webkit-scrollbar{display:none;}
+.tb{font-size:10.5px;padding:5px 12px;border-radius:20px;border:none;background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;font-family:var(--fb);font-weight:500;letter-spacing:.03em;transition:all .15s;}
+.tb:hover,.tb.active{background:var(--navy);color:white;}
+
+.section{display:none;padding:3.5rem 2.5rem 2rem;max-width:1200px;margin:0 auto;animation:si .22s ease;}
+.section.on{display:block;}
+@keyframes si{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.sh{margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(27,42,74,.08);}
+.sh-eye{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;display:flex;align-items:center;gap:10px;}
+.sh-eye::before{content:'';width:28px;height:1px;background:var(--gold);}
+.sh-h{font-family:var(--ff);font-size:clamp(22px,3vw,36px);font-weight:600;color:var(--navy);line-height:1.1;margin-bottom:.4rem;}
+.sh-h em{font-style:italic;color:var(--gold);}
+.sh-p{font-size:13.5px;font-weight:300;color:var(--muted);max-width:560px;line-height:1.7;}
+
+.block{margin-bottom:2.5rem;}
+.block-title{font-family:var(--ff);font-size:17px;font-weight:600;color:var(--navy);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(196,160,82,.2);}
+
+.file-header{background:var(--navy2);padding:.6rem 1.2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(196,160,82,.1);}
+.fh-path{font-family:'Courier New',monospace;font-size:11px;color:var(--gold2);letter-spacing:.03em;}
+.fh-lang{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(232,234,240,.3);padding:2px 7px;border:1px solid rgba(196,160,82,.15);}
+.code-block{background:var(--navy2);margin:0 0 1.5rem;overflow:hidden;border:1px solid rgba(196,160,82,.1);}
+.code-block pre{padding:1.4rem 1.5rem;font-family:'Courier New',monospace;font-size:11.5px;color:rgba(232,234,240,.85);line-height:1.75;overflow-x:auto;white-space:pre;}
+.s{color:var(--gold2);}.k{color:#7EC8E3;}.c{color:rgba(232,234,240,.3);font-style:italic;}.v{color:#A8D8A8;}.t{color:#E8A8D8;}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:1.5rem;}
+.tbl th{text-align:left;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 11px;border-bottom:2px solid rgba(27,42,74,.1);font-weight:600;background:var(--fog);}
+.tbl td{padding:8px 11px;border-bottom:1px solid rgba(27,42,74,.06);color:var(--body);vertical-align:top;line-height:1.5;}
+.tbl tr:hover td{background:var(--fog);}
+.tk{font-weight:600;color:var(--navy);}
+.tg{color:#2E7D32;font-weight:500;font-size:11px;}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:1.5rem;}
+@media(max-width:800px){.g2,.g3{grid-template-columns:1fr;}}
+.card{background:var(--ivory);border:1px solid rgba(27,42,74,.08);padding:1.25rem 1.4rem;}
+.card-navy{background:var(--navy);border-color:rgba(196,160,82,.2);}
+.card-gold{background:var(--gold-pale);border-color:transparent;}
+.cl{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:.4rem;}
+.card-navy .cl{color:rgba(196,160,82,.5);}
+.ct{font-family:var(--ff);font-size:15px;font-weight:600;color:var(--navy);margin-bottom:.35rem;line-height:1.2;}
+.card-navy .ct{color:#FDFAF5;}
+.cb{font-size:12px;color:var(--body);line-height:1.6;font-weight:300;}
+.card-navy .cb{color:rgba(232,234,240,.6);}
+
+.bl{list-style:none;padding:0;margin:.4rem 0 1.1rem;}
+.bl li{display:flex;gap:7px;padding:3px 0;font-size:12.5px;color:var(--body);line-height:1.5;align-items:flex-start;}
+.bl li::before{content:'—';color:var(--gold);flex-shrink:0;margin-top:2px;font-size:11px;}
+.bl li strong{color:var(--navy);font-weight:600;}
+
+.quote{border-left:2px solid var(--gold);padding:.9rem 1.3rem;background:var(--gold-pale);margin:1.25rem 0;}
+.qt{font-family:var(--ff);font-size:15px;font-style:italic;color:var(--navy);line-height:1.5;}
+
+.doc-footer{background:var(--navy2);padding:2.5rem;text-align:center;}
+.df-logo{font-family:var(--ff);font-size:20px;font-weight:600;color:#FDFAF5;margin-bottom:.2rem;}
+.df-logo em{color:var(--gold);font-style:normal;}
+.df-copy{font-size:11px;color:rgba(232,234,240,.2);margin-top:.75rem;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <img src="/mnt/user-data/uploads/VEDHARA_GROUP_Luxury_Logo_Concept__2_.png" alt="Vedhara Group">
+  <span class="cover-eye">Complete Implementation — Part III · Final Chapter</span>
+  <h1 class="cover-h">Vedhara Group<br><em>All Sections, Blog & Launch Guide</em></h1>
+  <p class="cover-sub">HeroSection, all homepage sections, blog system with dynamic pages, services pages, NRI Desk, GSAP scroll animations, mobile optimisation, and the complete step-by-step launch playbook.</p>
+  <div class="pills">
+    <div class="pill">HeroSection</div><div class="pill">All Section Components</div>
+    <div class="pill">Blog System</div><div class="pill">Services Pages</div>
+    <div class="pill">NRI Desk Page</div><div class="pill">GSAP Animations</div>
+    <div class="pill">Mobile System</div><div class="pill">Launch Playbook</div>
+  </div>
+</div>
+
+<nav class="tnav" id="tnav">
+  <button class="tb active" data-s="p01">Hero Section</button>
+  <button class="tb" data-s="p02">Homepage Sections</button>
+  <button class="tb" data-s="p03">Blog System</button>
+  <button class="tb" data-s="p04">Services Pages</button>
+  <button class="tb" data-s="p05">NRI Desk Page</button>
+  <button class="tb" data-s="p06">Contact Page</button>
+  <button class="tb" data-s="p07">GSAP Animations</button>
+  <button class="tb" data-s="p08">Mobile Optimisation</button>
+  <button class="tb" data-s="p09">Launch Playbook</button>
+  <button class="tb" data-s="p10">Master Summary</button>
+</nav>
+
+<!-- ════════════════ P01 HERO SECTION ════════════════ -->
+<div class="section on" id="p01">
+<div class="sh">
+  <div class="sh-eye">Part III · Section P01</div>
+  <h2 class="sh-h">Hero <em>Section</em></h2>
+  <p class="sh-p">The complete homepage hero — 100vh, 3D cityscape, animated text reveal, stats grid, trust row, and scroll indicator.</p>
+</div>
+
+<div class="block">
+<div class="block-title">HeroSection Component</div>
+<div class="code-block">
+<div class="file-header"><span class="fh-path">components/sections/HeroSection.tsx</span><span class="fh-lang">TSX</span></div>
+<pre><span class="s">'use client'</span>
+<span class="k">import</span> { Suspense, lazy } <span class="k">from</span> <span class="s">'react'</span>
+<span class="k">import</span> Link <span class="k">from</span> <span class="s">'next/link'</span>
+<span class="k">import</span> { motion } <span class="k">from</span> <span class="s">'framer-motion'</span>
+
+<span class="c">// Lazy load Three.js — only after FCP</span>
+<span class="k">const</span> HeroCityscape = lazy(() => <span class="k">import</span>(<span class="s">'@/components/3d/HeroCityscape'</span>))
+
+<span class="k">const</span> heroStats = [
+  { num: <span class="s">'200+'</span>, label: <span class="s">'Families Served'</span> },
+  { num: <span class="s">'₹50Cr+'</span>, label: <span class="s">'In Transactions'</span> },
+  { num: <span class="s">'4.9★'</span>, label: <span class="s">'Google Rating'</span> },
+  { num: <span class="s">'100%'</span>, label: <span class="s">'Legal Clarity'</span> },
+]
+
+<span class="k">const</span> container = {
+  hidden: {},
+  show: { transition: { staggerChildren: <span class="v">0.15</span> } }
+}
+<span class="k">const</span> item = {
+  hidden: { opacity: <span class="v">0</span>, y: <span class="v">28</span> },
+  show: { opacity: <span class="v">1</span>, y: <span class="v">0</span>, transition: { duration: <span class="v">0.75</span>, ease: [<span class="v">0.25</span>, <span class="v">0.46</span>, <span class="v">0.45</span>, <span class="v">0.94</span>] } }
+}
+
+<span class="k">export default function</span> <span class="v">HeroSection</span>() {
+  <span class="k">return</span> (
+    &lt;section className=<span class="s">"relative min-h-screen flex items-center overflow-hidden bg-[#111D35]"</span>&gt;
+
+      {/* Geometric Pattern */}
+      &lt;div className=<span class="s">"absolute inset-0 opacity-40"</span> style={{
+        backgroundImage: <span class="s">`repeating-linear-gradient(45deg, transparent, transparent 70px,
+          rgba(196,160,82,0.04) 70px, rgba(196,160,82,0.04) 71px),
+          repeating-linear-gradient(-45deg, transparent, transparent 70px,
+          rgba(196,160,82,0.04) 70px, rgba(196,160,82,0.04) 71px)`</span>
+      }} /&gt;
+
+      {/* Radial glow */}
+      &lt;div className=<span class="s">"absolute inset-0"</span> style={{
+        background: <span class="s">'radial-gradient(ellipse 70% 60% at 65% 45%, rgba(196,160,82,0.09) 0%, transparent 65%)'</span>
+      }} /&gt;
+
+      {/* 3D Cityscape — lazy loaded */}
+      &lt;Suspense fallback={<span class="k">null</span>}&gt;
+        &lt;HeroCityscape /&gt;
+      &lt;/Suspense&gt;
+
+      {/* Gold building silhouette (CSS fallback while Three.js loads) */}
+      &lt;div className=<span class="s">"absolute bottom-0 right-0 w-1/2 h-3/4 opacity-[0.04]"</span>
+        style={{ background: <span class="s">'linear-gradient(to top, rgba(196,160,82,1) 0%, rgba(196,160,82,0.3) 100%)'</span>,
+          clipPath: <span class="s">'polygon(0% 100%, 0% 55%, 8% 55%, 8% 35%, 18% 35%, 18% 12%, 25% 12%, 25% 28%, 35% 28%, 35% 8%, 42% 8%, 42% 22%, 52% 22%, 52% 38%, 62% 38%, 62% 18%, 72% 18%, 72% 32%, 82% 32%, 82% 48%, 92% 48%, 92% 62%, 100% 62%, 100% 100%)'</span> }}
+      /&gt;
+
+      {/* MAIN CONTENT */}
+      &lt;div className=<span class="s">"relative z-10 max-w-[1400px] mx-auto px-8 w-full pt-24
+        grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"</span>&gt;
+
+        {/* LEFT */}
+        &lt;motion.div variants={container} initial=<span class="s">"hidden"</span> animate=<span class="s">"show"</span>&gt;
+
+          {/* Badge */}
+          &lt;motion.div variants={item}
+            className=<span class="s">"inline-flex items-center gap-2.5 bg-gold/10 border border-gold/25 px-4 py-2 mb-8"</span>&gt;
+            &lt;span className=<span class="s">"w-1.5 h-1.5 rounded-full bg-gold"</span> /&gt;
+            &lt;span className=<span class="s">"text-[10px] tracking-[0.2em] uppercase text-gold font-medium"</span>&gt;
+              India's Premier Real Estate Advisory
+            &lt;/span&gt;
+          &lt;/motion.div&gt;
+
+          {/* H1 */}
+          &lt;motion.h1 variants={item}
+            className=<span class="s">"font-display font-semibold leading-[1.02] tracking-[-0.02em] mb-6 text-[#FDFAF5]"</span>
+            style={{ fontSize: <span class="s">'clamp(44px, 6vw, 82px)'</span> }}&gt;
+            Where &lt;em className=<span class="s">"italic text-gold-bright"</span>&gt;Wisdom&lt;/em&gt;
+            &lt;span className=<span class="s">"block"</span>&gt;Meets the Earth.&lt;/span&gt;
+          &lt;/motion.h1&gt;
+
+          {/* Subheadline */}
+          &lt;motion.p variants={item}
+            className=<span class="s">"text-[16px] font-light text-white/50 max-w-[440px] leading-[1.8] mb-10 tracking-[0.015em]"</span>&gt;
+            Premium real estate advisory, investment intelligence, and wealth creation —
+            delivered with the trust, transparency, and expertise your future deserves.
+          &lt;/motion.p&gt;
+
+          {/* CTAs */}
+          &lt;motion.div variants={item} className=<span class="s">"flex gap-4 flex-wrap"</span>&gt;
+            &lt;Link href=<span class="s">"/projects"</span>
+              className=<span class="s">"relative bg-gradient-to-r from-gold-muted via-gold to-gold-bright
+                text-navy-deep text-[11px] font-bold tracking-[0.12em] uppercase px-8 py-4
+                shadow-gold transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5
+                overflow-hidden group"</span>&gt;
+              &lt;span className=<span class="s">"relative z-10"</span>&gt;Explore Properties&lt;/span&gt;
+              &lt;span className=<span class="s">"absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%]
+                transition-transform duration-500"</span> /&gt;
+            &lt;/Link&gt;
+            &lt;Link href=<span class="s">"/contact"</span>
+              className=<span class="s">"text-white/70 text-[11px] font-medium tracking-[0.1em] uppercase px-8 py-4
+                border border-white/20 hover:border-gold hover:text-gold transition-all duration-300"</span>&gt;
+              Free Consultation
+            &lt;/Link&gt;
+          &lt;/motion.div&gt;
+        &lt;/motion.div&gt;
+
+        {/* RIGHT — STAT CARDS */}
+        &lt;motion.div
+          initial={{ opacity: <span class="v">0</span>, x: <span class="v">30</span> }}
+          animate={{ opacity: <span class="v">1</span>, x: <span class="v">0</span> }}
+          transition={{ duration: <span class="v">0.9</span>, delay: <span class="v">1.0</span>, ease: <span class="s">'easeOut'</span> }}
+          className=<span class="s">"hidden lg:flex flex-col gap-3"</span>
+        &gt;
+          {/* Stat grid */}
+          &lt;div className=<span class="s">"grid grid-cols-2 gap-3"</span>&gt;
+            {heroStats.map((stat, i) => (
+              &lt;motion.div key={stat.label}
+                initial={{ opacity: <span class="v">0</span>, y: <span class="v">20</span> }}
+                animate={{ opacity: <span class="v">1</span>, y: <span class="v">0</span> }}
+                transition={{ duration: <span class="v">0.6</span>, delay: <span class="v">1.1</span> + i * <span class="v">0.1</span> }}
+                whileHover={{ y: -<span class="v">3</span>, borderColor: <span class="s">'rgba(196,160,82,0.4)'</span> }}
+                className=<span class="s">"bg-white/5 backdrop-blur-sm border border-gold/15 p-5
+                  transition-all duration-300 cursor-default"</span>
+              &gt;
+                &lt;span className=<span class="s">"block font-display text-[34px] font-semibold text-gold-bright leading-none mb-1.5"</span>&gt;
+                  {stat.num}
+                &lt;/span&gt;
+                &lt;span className=<span class="s">"text-[10px] tracking-[0.12em] uppercase text-white/35"</span>&gt;
+                  {stat.label}
+                &lt;/span&gt;
+              &lt;/motion.div&gt;
+            ))}
+          &lt;/div&gt;
+
+          {/* Trust row */}
+          &lt;motion.div
+            initial={{ opacity: <span class="v">0</span> }}
+            animate={{ opacity: <span class="v">1</span> }}
+            transition={{ delay: <span class="v">1.6</span> }}
+            className=<span class="s">"flex items-center gap-4 px-4 py-3 bg-gold/8 border border-gold/15 flex-wrap"</span>
+          &gt;
+            {[<span class="s">'RERA Registered'</span>, <span class="s">'Legal Brief Included'</span>, <span class="s">'NRI Desk Available'</span>].map((t, i) => (
+              &lt;div key={t} className=<span class="s">"flex items-center gap-1.5 text-[10px] text-white/40"</span>&gt;
+                {i &gt; <span class="v">0</span> &amp;&amp; &lt;span className=<span class="s">"w-px h-3 bg-white/15"</span> /&gt;}
+                &lt;span className=<span class="s">"w-1 h-1 rounded-full bg-gold"</span> /&gt;
+                {t}
+              &lt;/div&gt;
+            ))}
+          &lt;/motion.div&gt;
+        &lt;/motion.div&gt;
+      &lt;/div&gt;
+
+      {/* SCROLL INDICATOR */}
+      &lt;motion.div
+        initial={{ opacity: <span class="v">0</span> }}
+        animate={{ opacity: <span class="v">1</span> }}
+        transition={{ delay: <span class="v">2.0</span> }}
+        className=<span class="s">"absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"</span>
+      &gt;
+        &lt;span className=<span class="s">"text-[9px] tracking-[0.2em] uppercase text-gold/50"</span>&gt;Scroll to explore&lt;/span&gt;
+        &lt;div className=<span class="s">"w-5 h-8 border border-gold/30 rounded-full flex items-start justify-center pt-1.5"</span>&gt;
+          &lt;motion.div
+            animate={{ y: [<span class="v">0</span>, <span class="v">10</span>, <span class="v">0</span>] }}
+            transition={{ duration: <span class="v">2</span>, repeat: Infinity, ease: <span class="s">'easeInOut'</span> }}
+            className=<span class="s">"w-0.5 h-1.5 bg-gold rounded-full"</span>
+          /&gt;
+        &lt;/div&gt;
+      &lt;/motion.div&gt;
+    &lt;/section&gt;
+  )
+}</pre>
+</div>
+</div>
+</div>
+
+<!-- ════════════════ P02 HOMEPAGE SECTIONS ════════════════ -->
+<div class="section" id="p02">
+<div class="sh">
+  <div class="sh-eye">Section P02</div>
+  <h2 class="sh-h">Homepage <em>Sections</em></h2>
+  <p class="sh-p">TrustBar, ServicesGrid, StatsSection, TestimonialsSection, GroundReportSignup, CTASection.</p>
+</div>
+
+<div class="block">
+<div class="block-title">TrustBar — Animated Marquee</div>
+<div class="code-block">
+<div class="file-header"><span class="fh-path">components/sections/TrustBar.tsx</span><span class="fh-lang">TSX</span></div>
+<pre><span class="s">'use client'</span>
+<span class="k">import</span> { useRef } <span class="k">from</span> <span class="s">'react'</span>
+
+<span class="k">const</span> items = [
+  <span class="s">'200+ Families Served'</span>, <span class="s">'₹50Cr+ In Transactions'</span>, <span class="s">'4.9★ Google Rating'</span>,
+  <span class="s">'RERA Registered'</span>, <span class="s">'Legal Brief on Every Property'</span>, <span class="s">'NRI Desk Available'</span>,
+  <span class="s">'Monthly Ground Report'</span>, <span class="s">'Wisdom Rooted · Futures Built'</span>,
+]
+
+<span class="k">export default function</span> <span class="v">TrustBar</span>() {
+  <span class="k">return</span> (
+    &lt;div className=<span class="s">"bg-ivory border-y border-navy/8 py-3 overflow-hidden relative"</span>&gt;
+      {/* Fade edges */}
+      &lt;div className=<span class="s">"absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-ivory to-transparent z-10"</span> /&gt;
+      &lt;div className=<span class="s">"absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-ivory to-transparent z-10"</span> /&gt;
+
+      {/* Scrolling track */}
+      &lt;div className=<span class="s">"flex w-max"</span>
+        style={{ animation: <span class="s">'trustScroll 32s linear infinite'</span> }}&gt;
+        {[...items, ...items].map((item, i) => (
+          &lt;div key={i} className=<span class="s">"flex items-center gap-4 px-8 whitespace-nowrap"</span>&gt;
+            &lt;span className=<span class="s">"w-1 h-1 rounded-full bg-gold flex-shrink-0"</span> /&gt;
+            &lt;span className=<span class="s">"text-[11px] tracking-[0.12em] uppercase text-light font-medium"</span>&gt;
+              {item}
+            &lt;/span&gt;
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+
+      &lt;style jsx&gt;{`
+        @keyframes trustScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}&lt;/style&gt;
+    &lt;/div&gt;
+  )
+}</pre>
+</div>
+</div>
+
+<div class="block">
+<div class="block-title">ServicesGrid Component</div>
+<div class="code-block">
+<div class="file-header"><span class="fh-path">components/sections/ServicesGrid.tsx</span><span class="fh-lang">TSX</span></div>
+<pre><span class="s">'use client'</span>
+<span class="k">import</span> Link <span class="k">from</span> <span class="s">'next/link'</span>
+<span class="k">import</span> { motion } <span class="k">from</span> <span class="s">'framer-motion'</span>
+<span class="k">import</span> SectionHeader <span class="k">from</span> <span class="s">'@/components/ui/SectionHeader'</span>
+<span class="k">import</span> { useState } <span class="k">from</span> <span class="s">'react'</span>
+
+<span class="k">const</span> services = [
+  {
+    num: <span class="s">'01'</span>,
+    icon: <span class="s">'🏠'</span>,
+    title: <span class="s">'Vedhara Realty'</span>,
+    desc: <span class="s">'Residential homes, land & plots, and commercial spaces — curated with precision and matched to your brief. Every listing includes our Vedhara Legal Brief: a comprehensive document covering title, encumbrances, zone classification, and our honest recommendation.'</span>,
+    href: <span class="s">'/services/premium-residential'</span>,
+    cta: <span class="s">'Explore Listings'</span>,
+  },
+  {
+    num: <span class="s">'02'</span>,
+    icon: <span class="s">'📊'</span>,
+    title: <span class="s">'Vedhara Advisory'</span>,
+    desc: <span class="s">'Investment-grade real estate advisory for HNI clients. Monthly Ground Report intelligence, land banking strategy, corridor analysis, and portfolio management. We are your trusted partner in building generational wealth.'</span>,
+    href: <span class="s">'/services/real-estate-investments'</span>,
+    cta: <span class="s">'Advisory Services'</span>,
+  },
+  {
+    num: <span class="s">'03'</span>,
+    icon: <span class="s">'🌐'</span>,
+    title: <span class="s">'NRI Trust Vault'</span>,
+    desc: <span class="s">'A dedicated process built for the NRI investor — video walkthroughs on demand, verified legal briefs, e-signature documentation, escrow arrangements, and a dedicated advisor available in your time zone.'</span>,
+    href: <span class="s">'/nri-desk'</span>,
+    cta: <span class="s">'NRI Desk'</span>,
+  },
+]
+
+<span class="k">export default function</span> <span class="v">ServicesGrid</span>() {
+  <span class="k">const</span> [hovered, setHovered] = useState&lt;<span class="t">number</span> | <span class="k">null</span>&gt;(<span class="k">null</span>)
+
+  <span class="k">return</span> (
+    &lt;section className=<span class="s">"bg-champagne py-28 px-8"</span>&gt;
+      &lt;div className=<span class="s">"max-w-[1400px] mx-auto"</span>&gt;
+        &lt;div className=<span class="s">"flex flex-col lg:flex-row lg:items-end justify-between mb-14 gap-6"</span>&gt;
+          &lt;SectionHeader eyebrow=<span class="s">"What We Do"</span> title=<span class="s">"Three arms."</span> titleAccent=<span class="s">"One vision."</span> /&gt;
+          &lt;p className=<span class="s">"text-[14px] font-light text-muted max-w-xs leading-[1.75] text-right hidden lg:block"</span>&gt;
+            From your first home to your investment portfolio — Vedhara is with you at every stage.
+          &lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;div className=<span class="s">"grid grid-cols-1 lg:grid-cols-3 gap-px bg-navy/10 border border-navy/10"</span>&gt;
+          {services.map((svc, i) => (
+            &lt;motion.div key={svc.title}
+              initial={{ opacity: <span class="v">0</span>, y: <span class="v">28</span> }}
+              whileInView={{ opacity: <span class="v">1</span>, y: <span class="v">0</span> }}
+              viewport={{ once: <span class="k">true</span>, margin: <span class="s">'-40px'</span> }}
+              transition={{ duration: <span class="v">0.65</span>, delay: i * <span class="v">0.12</span> }}
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(<span class="k">null</span>)}
+              className={`
+                relative p-10 overflow-hidden transition-all duration-400 cursor-default
+                ${hovered === i ? <span class="s">'bg-navy -translate-y-1 shadow-navy z-10'</span> : <span class="s">'bg-pearl'</span>}
+              `}
+            &gt;
+              {/* Gold bottom border draw */}
+              &lt;div className={`
+                absolute bottom-0 left-0 h-[3px] bg-gradient-to-r from-navy to-gold
+                transition-all duration-400
+                ${hovered === i ? <span class="s">'w-full'</span> : <span class="s">'w-0'</span>}
+              `} /&gt;
+
+              {/* Large bg number */}
+              &lt;span className={`
+                absolute top-6 right-6 font-display text-[60px] font-semibold leading-none
+                transition-colors duration-300
+                ${hovered === i ? <span class="s">'text-gold/15'</span> : <span class="s">'text-navy/6'</span>}
+              `}&gt;{svc.num}&lt;/span&gt;
+
+              {/* Icon */}
+              &lt;div className={`
+                w-14 h-14 border flex items-center justify-center text-[22px] mb-7
+                transition-all duration-300
+                ${hovered === i ? <span class="s">'border-gold bg-gold/10'</span> : <span class="s">'border-gold/25'</span>}
+              `}&gt;{svc.icon}&lt;/div&gt;
+
+              &lt;h3 className={`font-display text-[22px] font-semibold mb-3 leading-tight transition-colors duration-300 ${hovered === i ? <span class="s">'text-[#FDFAF5]'</span> : <span class="s">'text-navy'</span>}`}&gt;
+                {svc.title}
+              &lt;/h3&gt;
+              &lt;p className={`text-[13.5px] font-light leading-[1.75] mb-7 transition-colors duration-300 ${hovered === i ? <span class="s">'text-white/50'</span> : <span class="s">'text-muted'</span>}`}&gt;
+                {svc.desc}
+              &lt;/p&gt;
+              &lt;Link href={svc.href}
+                className=<span class="s">"inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.1em] uppercase text-gold hover:gap-4 transition-all duration-200"</span>
+              &gt;
+                {svc.cta} →
+              &lt;/Link&gt;
+            &lt;/motion.div&gt;
+          ))}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  )
+}</pre>
+</div>
+</div>
+
+<div class="block">
+<div class="block-title">StatsSection + TestimonialsSection</div>
+<div class="code-block">
+<div class="file-header"><span class="fh-path">components/sections/StatsSection.tsx</span><span class="fh-lang">TSX</span></div>
+<pre><span class="k">import</span> StatCounter <span class="k">from</span> <span class="s">'@/components/ui/StatCounter'</span>
+<span class="k">import</span> SectionHeader <span class="k">from</span> <span class="s">'@/components/ui/SectionHeader'</span>
+
+<span class="k">const</span> stats = [
+  { value: <span class="v">200</span>, suffix: <span class="s">'+'</span>, label: <span class="s">'Families Served'</span>, sublabel: <span class="s">'Happy clients across Bangalore'</span> },
+  { value: <span class="v">50</span>, prefix: <span class="s">'₹'</span>, suffix: <span class="s">'Cr+'</span>, label: <span class="s">'In Transactions'</span>, sublabel: <span class="s">'Residential, commercial & land'</span> },
+  { value: <span class="v">4.9</span>, suffix: <span class="s">'★'</span>, label: <span class="s">'Google Rating'</span>, sublabel: <span class="s">'From verified client reviews'</span>, decimals: <span class="v">1</span> },
+  { value: <span class="v">100</span>, suffix: <span class="s">'%'</span>, label: <span class="s">'Legal Clarity'</span>, sublabel: <span class="s">'Legal brief on every listing'</span> },
+]
+
+<span class="k">export default function</span> <span class="v">StatsSection</span>() {
+  <span class="k">return</span> (
+    &lt;section className=<span class="s">"bg-champagne py-24 px-8"</span>&gt;
+      &lt;div className=<span class="s">"max-w-[1400px] mx-auto"</span>&gt;
+        &lt;SectionHeader eyebrow=<span class="s">"Numbers That Build Confidence"</span>
+          title=<span class="s">"The track record"</span> titleAccent=<span class="s">"speaks clearly."</span> centered /&gt;
+        &lt;div className=<span class="s">"grid grid-cols-2 lg:grid-cols-4 gap-px bg-gold/20 border border-gold/20"</span>&gt;
+          {stats.map(s => (
+            &lt;StatCounter key={s.label} {...s} /&gt;
+          ))}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  )
+}</pre>
+</div>
+</div>
+
+<div class="block">
+<div class="block-title">GroundReportSignup Section</div>
+<div class="code-block">
+<div class="file-header"><span class="fh-path">components/sections/GroundReportSignup.tsx</span><span class="fh-lang">TSX</span></div>
+<pre><span class="s">'use client'</span>
+<span class="k">import</span> { useState } <span class="k">from</span> <span class="s">'react'</span>
+<span class="k">import</span> { motion } <span class="k">from</span> <span class="s">'framer-motion'</span>
+<span class="k">import</span> SectionHeader <span class="k">from</span> <span class="s">'@/components/ui/SectionHeader'</span>
+
+<span class="k">const</span> features = [
+  { num: <span class="s">'01'</span>, title: <span class="s">'Corridor Watch'</span>, desc: <span class="s">'Deep analysis of one growth corridor every month with a 5-year honest outlook.'</span> },
+  { num: <span class="s">'02'</span>, title: <span class="s">'Market Snapshot'</span>, desc: <span class="s">'Price per sq ft trends across 5 key micro-markets vs prior month and year.'</span> },
+  { num: <span class="s">'03'</span>, title: <span class="s">'Buyer Intelligence'</span>, desc: <span class="s">'One practical legal, financial, or market tip every edition.'</span> },
+  { num: <span class="s">'04'</span>, title: <span class="s">'Ground Story'</span>, desc: <span class="s">'A real client transaction — what made it right, and what we learnt.'</span> },
+]
+
+<span class="k">export default function</span> <span class="v">GroundReportSignup</span>() {
+  <span class="k">const</span> [email, setEmail] = useState(<span class="s">''</span>)
+  <span class="k">const</span> [status, setStatus] = useState&lt;<span class="s">'idle'</span> | <span class="s">'loading'</span> | <span class="s">'success'</span> | <span class="s">'error'</span>&gt;(<span class="s">'idle'</span>)
+
+  <span class="k">const</span> handleSubmit = <span class="k">async</span> (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus(<span class="s">'loading'</span>)
+    <span class="k">const</span> res = <span class="k">await</span> fetch(<span class="s">'/api/ground-report'</span>, {
+      method: <span class="s">'POST'</span>,
+      headers: { <span class="s">'Content-Type'</span>: <span class="s">'application/json'</span> },
+      body: JSON.stringify({ email, sourcePage: <span class="s">'homepage'</span> }),
+    })
+    setStatus(res.ok ? <span class="s">'success'</span> : <span class="s">'error'</span>)
+  }
+
+  <span class="k">return</span> (
+    &lt;section className=<span class="s">"bg-[#3A5444] relative overflow-hidden py-28 px-8"</span>&gt;
+      &lt;div className=<span class="s">"absolute inset-0"</span> style={{ background: <span class="s">'radial-gradient(ellipse 60% 70% at 80% 50%, rgba(196,160,82,0.1) 0%, transparent 60%)'</span> }} /&gt;
+      &lt;div className=<span class="s">"max-w-[1400px] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center"</span>&gt;
+
+        {/* LEFT: MOCK REPORT */}
+        &lt;motion.div
+          initial={{ opacity: <span class="v">0</span>, rotateY: -<span class="v">8</span>, x: -<span class="v">20</span> }}
+          whileInView={{ opacity: <span class="v">1</span>, rotateY: -<span class="v">4</span>, x: <span class="v">0</span> }}
+          whileHover={{ rotateY: <span class="v">0</span>, rotateX: <span class="v">2</span> }}
+          viewport={{ once: <span class="k">true</span> }}
+          transition={{ duration: <span class="v">0.8</span> }}
+          style={{ perspective: <span class="s">'1000px'</span>, transformStyle: <span class="s">'preserve-3d'</span> }}
+          className=<span class="s">"bg-pearl border border-gold/25 overflow-hidden shadow-[40px_40px_80px_rgba(0,0,0,0.35)]"</span>
+        &gt;
+          {/* Report header */}
+          &lt;div className=<span class="s">"bg-navy px-7 py-5 flex justify-between items-end border-b-2 border-gold"</span>&gt;
+            &lt;div&gt;
+              &lt;span className=<span class="s">"font-display text-[16px] font-semibold text-white"</span>&gt;
+                &lt;em className=<span class="s">"not-italic text-gold"</span>&gt;VED&lt;/em&gt;HARA GROUP
+              &lt;/span&gt;
+            &lt;/div&gt;
+            &lt;span className=<span class="s">"text-[10px] tracking-wide text-white/35 uppercase"</span>&gt;Ground Report · June 2026&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div className=<span class="s">"p-7"</span>&gt;
+            &lt;h3 className=<span class="s">"font-display text-[17px] font-semibold text-navy mb-1"</span>&gt;Bangalore Real Estate Intelligence&lt;/h3&gt;
+            &lt;p className=<span class="s">"text-[11px] text-muted mb-5"</span>&gt;Monthly market data &amp; corridor analysis&lt;/p&gt;
+            {[
+              [<span class="s">'Whitefield Avg. Price/sqft'</span>, <span class="s">'₹6,240 ↑ 4.2%'</span>],
+              [<span class="s">'Sarjapur Land Appreciation YoY'</span>, <span class="s">'+18.4%'</span>],
+              [<span class="s">'New Metro Corridor Impact'</span>, <span class="s">'+12–15%'</span>],
+              [<span class="s">'Commercial Vacancy Rate'</span>, <span class="s">'8.2% ↓'</span>],
+              [<span class="s">'Top Investment Zone'</span>, <span class="s">'Devanahalli'</span>],
+            ].map(([label, val]) => (
+              &lt;div key={label} className=<span class="s">"flex justify-between items-center py-2.5 border-b border-navy/6"</span>&gt;
+                &lt;span className=<span class="s">"text-[12px] text-body"</span>&gt;{label}&lt;/span&gt;
+                &lt;span className=<span class="s">"text-[12px] font-semibold text-gold-muted"</span>&gt;{val}&lt;/span&gt;
+              &lt;/div&gt;
+            ))}
+          &lt;/div&gt;
+          &lt;div className=<span class="s">"bg-champagne px-7 py-4 flex justify-between items-center border-t border-gold/20"</span>&gt;
+            &lt;span className=<span class="s">"text-[11px] text-muted"</span>&gt;Active subscribers&lt;/span&gt;
+            &lt;span className=<span class="s">"font-display text-[17px] font-semibold text-navy"</span>&gt;2,400+&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/motion.div&gt;
+
+        {/* RIGHT: SIGNUP */}
+        &lt;div&gt;
+          &lt;SectionHeader eyebrow=<span class="s">"Intelligence"</span>
+            title=<span class="s">"The Ground Report —"</span> titleAccent=<span class="s">"Your monthly edge."</span> light /&gt;
+          &lt;div className=<span class="s">"space-y-0 mb-8"</span>&gt;
+            {features.map((f, i) => (
+              &lt;motion.div key={f.num}
+                initial={{ opacity: <span class="v">0</span>, x: <span class="v">20</span> }}
+                whileInView={{ opacity: <span class="v">1</span>, x: <span class="v">0</span> }}
+                viewport={{ once: <span class="k">true</span> }}
+                transition={{ delay: i * <span class="v">0.1</span> }}
+                className=<span class="s">"flex gap-4 py-4 border-b border-white/8"</span>
+              &gt;
+                &lt;span className=<span class="s">"font-display text-[12px] italic text-white/30 flex-shrink-0 pt-0.5"</span>&gt;{f.num}&lt;/span&gt;
+                &lt;p className=<span class="s">"text-[13.5px] font-light text-white/65 leading-[1.6]"</span>&gt;
+                  &lt;strong className=<span class="s">"text-white font-medium"</span>&gt;{f.title}:&lt;/strong&gt; {f.desc}
+                &lt;/p&gt;
+              &lt;/motion.div&gt;
+            ))}
+          &lt;/div&gt;
+          &lt;p className=<span class="s">"text-[11.5px] text-white/30 mb-3"</span>&gt;Join 2,400+ investors and buyers&lt;/p&gt;
+          {status === <span class="s">'success'</span> ? (
+            &lt;div className=<span class="s">"bg-white/10 border border-gold/30 px-5 py-4 text-[13px] text-white/75"</span>&gt;
+              🙏 Subscribed! Check your inbox for the Ground Report.
+            &lt;/div&gt;
+          ) : (
+            &lt;form onSubmit={handleSubmit} className=<span class="s">"flex gap-0"</span>&gt;
+              &lt;input type=<span class="s">"email"</span> required value={email} onChange={e => setEmail(e.target.value)}
+                placeholder=<span class="s">"Your email address"</span>
+                className=<span class="s">"flex-1 bg-white/10 border border-gold/20 border-r-0 px-5 py-3.5
+                  text-[13px] font-light text-white placeholder:text-white/25 outline-none
+                  focus:border-gold/50 transition-colors"</span> /&gt;
+              &lt;button type=<span class="s">"submit"</span> disabled={status === <span class="s">'loading'</span>}
+                className=<span class="s">"bg-gold text-navy-deep text-[11px] font-bold tracking-[0.1em] uppercase
+                  px-6 py-3.5 hover:bg-gold-bright transition-colors disabled:opacity-70 whitespace-nowrap"</span>&gt;
+                {status === <span class="s">'loading'</span> ? <span class="s">'…'</span> : <span class="s">'Get Free Report'</span>}
+              &lt;/button&gt;
+            &lt;/form&gt;
+          )}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  )
+}</pre>
+</div>
+</div>
+</div>
+
+<!-- ════════════════ P03 BLOG SYSTEM ════════════════ -->
+<div class="section" id="p03">
+<div class="sh">
+  <div class="sh-eye">Section P03</div>
+  <h2 class="sh-h">Blog <em>System</em></h2>
+  <p class="sh-p">Blog listing page, dynamic blog post page with rich content, SEO metadata, and related posts.</p>
+</div>
+
+<div class="block">
+<div class="block-title">Blog Listing Page — /blog</div>
+<div class="code-block">
+<div class="file-header"><span class="fh-path">app/(marketing)/blog/page.tsx</span><span class="fh-lang">TSX</span></div>
+<pre><span class="k">import</span> <span class="t">type</span> { Metadata } <span class="k">from</span> <span class="s">'next'</span>
+<span class="k">import</span> Link <span class="k">from</span> <span class="s">'next/link'</span>
+<span class="k">import</span> Image <span class="k">from</span> <span class="s">'next/image'</span>
+<span class="k">import</span> { getAllBlogPostsListing } <span class="k">from</span> <span class="s">'@/lib/sanity/queries'</span>
+<span class="k">import</span> JsonLD <span class="k">from</span> <span class="s">'@/components/seo/JsonLD'</span>
+
+<span class="k">export const</span> metadata: Metadata = {
+  title: <span class="s">'Real Estate Blog | Market Intelligence & Investment Insights — Vedhara Group'</span>,
+  description: <span class="s">'Expert real estate market analysis, investment guides, legal tips, and Bangalore property insights from Vedhara Group. Free monthly Ground Report included.'</span>,
+  alternates: { canonical: <span class="s">'https://vedharagroup.com/blog'</span> },
+}
+<span class="k">export const</span> revalidate = <span class="v">3600</span>
+
+<span class="k">const</span> categories = [<span class="s">'All'</span>, <span class="s">'Real Estate'</span>, <span class="s">'Investment'</span>, <span class="s">'Market Trends'</span>, <span class="s">'Legal Guide'</span>, <span class="s">'NRI'</span>]
+
+<span class="k">export default async function</span> <span class="v">BlogPage</span>({ searchParams }: { searchParams: { category?: <span class="t">string</span> } }) {
+  <span class="k">const</span> category = searchParams.category || <span class="s">'All'</span>
+  <span class="k">const</span> posts = <span class="k">await</span> getAllBlogPostsListing(category === <span class="s">'All'</span> ? <span class="k">undefined</span> : category)
+
+  <span class="k">const</span> breadcrumbSchema = {
+    <span class="s">"@context"</span>: <span class="s">"https://schema.org"</span>,
+    <span class="s">"@type"</span>: <span class="s">"BreadcrumbList"</span>,
+    <span class="s">"itemListElement"</span>: [
+      { <span class="s">"@type"</span>: <span class="s">"ListItem"</span>, <span class="s">"position"</span>: <span class="v">1</span>, <span class="s">"name"</span>: <span class="s">"Home"</span>, <span class="s">"item"</span>: <span class="s">"https://vedharagroup.com"</span> },
+      { <span class="s">"@type"</span>: <span class="s">"ListItem"</span>, <span class="s">"position"</span>: <span class="v">2</span>, <span class="s">"name"</span>: <span class="s">"Blog"</span>, <span class="s">"item"</span>: <span class="s">"https://vedharagroup.com/blog"</span> },
+    ]
+  }
+
+  <span class="k">return</span> (
+    &lt;&gt;
+      &lt;JsonLD data={breadcrumbSchema} /&gt;
+
+      {/* PAGE HERO */}
+      &lt;section className=<span class="s">"bg-navy-deep pt-32 pb-16 px-8"</span>&gt;
+        &lt;div className=<span class="s">"max-w-[1400px] mx-auto"</span>&gt;
+          &lt;div className=<span class="s">"inline-flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase text-gold mb-5"</span>&gt;
+            &lt;span className=<span class="s">"w-8 h-px bg-gold"</span> /&gt; Market Intelligence
+          &lt;/div&gt;
+          &lt;h1 className=<span class="s">"font-display text-[clamp(32px,5vw,60px)] font-semibold text-[#FDFAF5] leading-tight mb-4"</span>&gt;
+            Real Estate &lt;em className=<span class="s">"italic text-gold-bright"</span>&gt;Insights.&lt;/em&gt;
+          &lt;/h1&gt;
+          &lt;p className=<span class="s">"text-[15px] font-light text-white/45 max-w-xl leading-[1.75]"</span>&gt;
+            Expert analysis, investment guides, and honest market intelligence — from advisors who are active in the Bangalore property market every day.
+          &lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      {/* CATEGORY FILTER */}
+      &lt;div className=<span class="s">"bg-ivory border-b border-navy/8 px-8 py-4"</span>&gt;
+        &lt;div className=<span class="s">"max-w-[1400px] mx-auto flex gap-2 flex-wrap"</span>&gt;
+          {categories.map(cat => (
+            &lt;Link key={cat}
+              href={cat === <span class="s">'All'</span> ? <span class="s">'/blog'</span> : `/blog?category=${cat}`}
+              className={`text-[11px] font-medium px-4 py-2 transition-all duration-200 ${
+                category === cat
+                  ? <span class="s">'bg-navy text-white'</span>
+                  : <span class="s">'text-muted hover:text-navy border border-navy/10 hover:border-navy/30'</span>
+              }`}
+            &gt;
+              {cat}
+            &lt;/Link&gt;
+          ))}
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      {/* POSTS GRID */}
+      &lt;section className=<span class="s">"bg-pearl py-16 px-8"</span>&gt;
+        &lt;div className=<span class="s">"max-w-[1400px] mx-auto"</span>&gt;
+          &lt;div className=<span class="s">"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"</span>&gt;
+            {posts.map((post: <span class="t">any</span>, i: <span class="t">number</span>) => (
+              &lt;Link key={post.slug} href={`/blog/${post.slug}`}
+                className=<span class="s">"group bg-pearl border border-navy/8 overflow-hidden hover:border-gold/30 hover:-translate-y-1 hover:shadow-hover transition-all duration-350"</span>
+              &gt;
+                {/* Post image */}
+                &lt;div className=<span class="s">"h-48 bg-navy-deep overflow-hidden"</span>&gt;
+                  {post.featuredImage ? (
+                    &lt;Image src={post.featuredImage.url} alt={post.featuredImage.alt || post.title}
+                      width={<span class="v">600</span>} height={<span class="v">400</span>}
+                      className=<span class="s">"w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"</span> /&gt;
+                  ) : (
+                    &lt;div className=<span class="s">"w-full h-full flex items-center justify-center font-display italic text-white/20 text-sm"</span>&gt;
+                      {post.category}
+                    &lt;/div&gt;
+                  )}
+                &lt;/div&gt;
+                {/* Post body */}
+                &lt;div className=<span class="s">"p-6"</span>&gt;
+                  &lt;div className=<span class="s">"flex items-center gap-3 mb-3"</span>&gt;
+                    &lt;span className=<span class="s">"text-[9px] font-bold tracking-[0.12em] uppercase text-gold"</span>&gt;{post.category}&lt;/span&gt;
+                    &lt;span className=<span class="s">"text-[10px] text-light"</span>&gt;{post.readingTime} min read&lt;/span&gt;
+                  &lt;/div&gt;
+                  &lt;h2 className=<span class="s">"font-display text-[17px] font-semibold text-navy leading-tight mb-2 group-hover:text-navy-mid transition-colors"</span>&gt;
+                    {post.title}
+                  &lt;/h2&gt;
+                  &lt;p className=<span class="s">"text-[12.5px] font-light text-muted leading-[1.65] mb-4 line-clamp-3"</span>&gt;{post.excerpt}&lt;/p&gt;
+                  &lt;div className=<span class="s">"flex items-center justify-between"</span>&gt;
+                    &lt;span className=<span class="s">"text-[11px] text-light"</span>&gt;{new Date(post.publishedAt).toLocaleDateString(<span class="s">'en-IN'</span>, { day: <span class="s">'numeric'</span>, month: <span class="s">'short'</span>, year: <span class="s">'numeric'</span> })}&lt;/span&gt;
+                    &lt;span className=<span class="s">"text-[10px] font-bold tracking-[0.1em] uppercase text-gold group-hover:gap-4 flex items-center gap-1.5 transition-all"</span>&gt;
+                      Read →
+                    &lt;/span&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/Link&gt;
+            ))}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+    &lt;/&gt;
+  )
+}</pre>
+</div>
+</div>
+
+<div class="block">
+<div class="block-title">Dynamic Blog Post Page — /blog/[slug]</div>
+<div class="code-block">
+<div class="file-header"><span class="fh-path">app/(marketing)/blog/[slug]/page.tsx</span><span class="fh-lang">TSX</span></div>
+<pre><span class="k">import</span> { notFound } <span class="k">from</span> <span class="s">'next/navigation'</span>
+<span class="k">import</span> <span class="t">type</span> { Metadata } <span class="k">from</span> <span class="s">'next'</span>
+<span class="k">import</span> { PortableText } <span class="k">from</span> <span class="s">'@portabletext/react'</span>
+<span class="k">import</span> Image <span class="k">from</span> <span class="s">'next/image'</span>
+<span class="k">import</span> Link <span class="k">from</span> <span class="s">'next/link'</span>
+<span class="k">import</span> { getBlogPost, getAllBlogPosts } <span class="k">from</span> <span class="s">'@/lib/sanity/queries'</span>
+<span class="k">import</span> JsonLD <span class="k">from</span> <span class="s">'@/components/seo/JsonLD'</span>
+<span class="k">import</span> GroundReportSignup <span class="k">from</span> <span class="s">'@/components/sections/GroundReportSignup'</span>
+
+<span class="k">interface</span> PageProps { params: { slug: <span class="t">string</span> } }
+
+<span class="k">export async function</span> <span class="v">generateStaticParams</span>() {
+  <span class="k">const</span> posts = <span class="k">await</span> getAllBlogPosts()
+  <span class="k">return</span> posts.map((p: <span class="t">any</span>) => ({ slug: p.slug }))
+}
+
+<span class="k">export async function</span> <span class="v">generateMetadata</span>({ params }: PageProps): Promise&lt;Metadata&gt; {
+  <span class="k">const</span> post = <span class="k">await</span> getBlogPost(params.slug)
+  <span class="k">if</span> (!post) <span class="k">return</span> {}
+  <span class="k">return</span> {
+    title: post.seoTitle || post.title,
+    description: post.seoDescription || post.excerpt,
+    alternates: { canonical: `https://vedharagroup.com/blog/${params.slug}` },
+    openGraph: { images: post.featuredImage?.url ? [post.featuredImage.url] : [] },
+  }
+}
+
+<span class="k">const</span> ptComponents = {
+  block: {
+    h2: ({ children }: <span class="t">any</span>) => &lt;h2 className=<span class="s">"font-display text-[26px] font-semibold text-navy mt-10 mb-4 leading-tight"</span>&gt;{children}&lt;/h2&gt;,
+    h3: ({ children }: <span class="t">any</span>) => &lt;h3 className=<span class="s">"font-display text-[20px] font-semibold text-navy mt-8 mb-3"</span>&gt;{children}&lt;/h3&gt;,
+    normal: ({ children }: <span class="t">any</span>) => &lt;p className=<span class="s">"text-[14.5px] font-light text-body leading-[1.88] mb-5 tracking-[0.01em]"</span>&gt;{children}&lt;/p&gt;,
+    blockquote: ({ children }: <span class="t">any</span>) => (
+      &lt;blockquote className=<span class="s">"border-l-2 border-gold bg-gold-pale px-6 py-4 my-7"</span>&gt;
+        &lt;p className=<span class="s">"font-accent text-[17px] italic text-navy leading-[1.6]"</span>&gt;{children}&lt;/p&gt;
+      &lt;/blockquote&gt;
+    ),
+  },
+  marks: {
+    strong: ({ children }: <span class="t">any</span>) => &lt;strong className=<span class="s">"font-semibold text-navy"</span>&gt;{children}&lt;/strong&gt;,
+    link: ({ value, children }: <span class="t">any</span>) => (
+      &lt;a href={value?.href} className=<span class="s">"text-gold-muted underline hover:text-navy transition-colors"</span>
+        target={value?.href?.startsWith(<span class="s">'http'</span>) ? <span class="s">'_blank'</span> : <span class="k">undefined</span>}
+        rel={value?.href?.startsWith(<span class="s">'http'</span>) ? <span class="s">'noopener noreferrer'</span> : <span class="k">undefined</span>}&gt;
+        {children}
+      &lt;/a&gt;
+    ),
+  },
+  types: {
+    image: ({ value }: <span class="t">any</span>) => (
+      &lt;div className=<span class="s">"my-8"</span>&gt;
+        &lt;Image src={value.asset.url} alt={value.alt || <span class="s">''</span>} width={<span class="v">800</span>} height={<span class="v">500</span>}
+          className=<span class="s">"w-full h-auto border border-navy/8"</span> /&gt;
+        {value.alt &amp;&amp; &lt;p className=<span class="s">"text-[11px] text-muted text-center mt-2 italic"</span>&gt;{value.alt}&lt;/p&gt;}
+      &lt;/div&gt;
+    ),
+  },
+}
+
+<span class="k">export const</span> revalidate = <span class="v">3600</span>
+
+<span class="k">export default async function</span> <span class="v">BlogPostPage</span>({ params }: PageProps) {
+  <span class="k">const</span> post = <span class="k">await</span> getBlogPost(params.slug)
+  <span class="k">if</span> (!post) notFound()
+
+  <span class="k">const</span> articleSchema = {
+    <span class="s">"@context"</span>: <span class="s">"https://schema.org"</span>,
+    <span class="s">"@type"</span>: <span class="s">"Article"</span>,
+    <span class="s">"headline"</span>: post.title,
+    <span class="s">"description"</span>: post.excerpt,
+    <span class="s">"datePublished"</span>: post.publishedAt,
+    <span class="s">"author"</span>: { <span class="s">"@type"</span>: <span class="s">"Person"</span>, <span class="s">"name"</span>: post.author?.name || <span class="s">"Vedhara Group"</span> },
+    <span class="s">"publisher"</span>: { <span class="s">"@id"</span>: <span class="s">"https://vedharagroup.com/#organization"</span> },
+    <span class="s">"url"</span>: `https://vedharagroup.com/blog/${params.slug}`,
+    <span class="s">"image"</span>: post.featuredImage?.url,
+  }
+
+  <span class="k">return</span> (
+    &lt;&gt;
+      &lt;JsonLD data={articleSchema} /&gt;
+
+      {/* HERO */}
+      &lt;section className=<span class="s">"bg-navy-deep pt-32 pb-16 px-8"</span>&gt;
+        &lt;div className=<span class="s">"max-w-[800px] mx-auto"</span>&gt;
+          &lt;div className=<span class="s">"flex items-center gap-3 mb-5"</span>&gt;
+            &lt;Link href=<span class="s">"/blog"</span> className=<span class="s">"text-[10px] tracking-[0.1em] text-gold/60 hover:text-gold transition-colors"</span>&gt;← Blog&lt;/Link&gt;
+            &lt;span className=<span class="s">"text-white/20 text-xs"</span>&gt;/&lt;/span&gt;
+            &lt;span className=<span class="s">"text-[10px] tracking-[0.1em] text-gold uppercase"</span>&gt;{post.category}&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;h1 className=<span class="s">"font-display text-[clamp(26px,4vw,46px)] font-semibold text-[#FDFAF5] leading-tight mb-5"</span>&gt;
+            {post.title}
+          &lt;/h1&gt;
+          &lt;div className=<span class="s">"flex items-center gap-6 text-[12px] text-white/35"</span>&gt;
+            {post.author &amp;&amp; &lt;span&gt;By {post.author.name}&lt;/span&gt;}
+            &lt;span&gt;{new Date(post.publishedAt).toLocaleDateString(<span class="s">'en-IN'</span>, { day: <span class="s">'numeric'</span>, month: <span class="s">'long'</span>, year: <span class="s">'numeric'</span> })}&lt;/span&gt;
+            {post.readingTime &amp;&amp; &lt;span&gt;{post.readingTime} min read&lt;/span&gt;}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      {/* FEATURED IMAGE */}
+      {post.featuredImage?.url &amp;&amp; (
+        &lt;div className=<span class="s">"max-w-[900px] mx-auto px-8 -mt-8 relative z-10 mb-12"</span>&gt;
+          &lt;Image src={post.featuredImage.url} alt={post.featuredImage.alt || post.title}
+            width={<span class="v">900</span>} height={<span class="v">500</span>} className=<span class="s">"w-full h-auto border border-navy/10"</span> priority /&gt;
+        &lt;/div&gt;
+      )}
+
+      {/* CONTENT */}
+      &lt;article className=<span class="s">"max-w-[800px] mx-auto px-8 pb-16"</span>&gt;
+        &lt;PortableText value={post.body} components={ptComponents} /&gt;
+
+        {/* TAGS */}
+        {post.tags?.length &gt; <span class="v">0</span> &amp;&amp; (
+          &lt;div className=<span class="s">"mt-10 pt-6 border-t border-navy/8 flex gap-2 flex-wrap"</span>&gt;
+            {post.tags.map((tag: <span class="t">string</span>) => (
+              &lt;span key={tag} className=<span class="s">"text-[10px] font-medium px-3 py-1.5 border border-navy/10 text-muted"</span>&gt;
+                {tag}
+              &lt;/span&gt;
+            ))}
+          &lt;/div&gt;
+        )}
+
+        {/* AUTHOR BIO */}
+        {post.author &amp;&amp; (
+          &lt;div className=<span class="s">"mt-10 flex gap-4 bg-fog border border-navy/8 p-5"</span>&gt;
+            &lt;div className=<span class="s">"w-12 h-12 bg-navy flex-shrink-0 flex items-center justify-center font-display text-lg text-gold"</span>&gt;
+              {post.author.name[<span class="v">0</span>]}
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;div className=<span class="s">"font-semibold text-navy text-[13px]"</span>&gt;{post.author.name}&lt;/div&gt;
+              &lt;div className=<span class="s">"text-[10px] text-gold tracking-wide uppercase mb-1"</span>&gt;{post.author.role}&lt;/div&gt;
+              &lt;p className=<span class="s">"text-[12px] text-muted font-light leading-[1.6]"</span>&gt;Senior Real Estate Advisor at Vedhara Group. Specialising in investment advisory, market intelligence, and guiding families to the right ground.&lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        )}
+      &lt;/article&gt;
+
+      {/* RELATED POSTS */}
+      {post.relatedPosts?.length &gt; <span class="v">0</span> &amp;&amp; (
+        &lt;section className=<span class="s">"bg-ivory py-16 px-8 border-t border-navy/8"</span>&gt;
+          &lt;div className=<span class="s">"max-w-[1400px] mx-auto"</span>&gt;
+            &lt;h2 className=<span class="s">"font-display text-[22px] font-semibold text-navy mb-8"</span>&gt;Related Articles&lt;/h2&gt;
+            &lt;div className=<span class="s">"grid grid-cols-1 md:grid-cols-3 gap-6"</span>&gt;
+              {post.relatedPosts.map((rp: <span class="t">any</span>) => (
+                &lt;Link key={rp.slug} href={`/blog/${rp.slug}`}
+                  className=<span class="s">"group bg-pearl border border-navy/8 p-5 hover:border-gold/30 transition-colors"</span>&gt;
+                  &lt;span className=<span class="s">"text-[9px] font-bold tracking-[0.12em] uppercase text-gold block mb-2"</span>&gt;{rp.category}&lt;/span&gt;
+                  &lt;h3 className=<span class="s">"font-display text-[15px] font-semibold text-navy leading-tight mb-2 group-hover:text-navy-mid"</span>&gt;{rp.title}&lt;/h3&gt;
+                  &lt;p className=<span class="s">"text-[12px] text-muted font-light leading-[1.6] line-clamp-2"</span>&gt;{rp.excerpt}&lt;/p&gt;
+                &lt;/Link&gt;
+              ))}
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/section&gt;
+      )}
+
+      &lt;GroundReportSignup /&gt;
+    &lt;/&gt;
+  )
+}</pre>
+</div>
+</div>
+</div>
+
+<!-- ════════════════ P04 SERVICES PAGES ════════════════ -->
+<div class="section" id="p04">
+<div class="sh">
+  <div class="sh-eye">Section P04</div>
+  <h2 class="sh-h">Services <em>Pages</em></h2>
+  <p class="sh-p">Land Investments service page (template for all 6 service pages) + Services overview index.</p>
+</div>
+
+<div class="block">
+<div class="block-title">Land Investments Page — Template for All Service Pages</div>
+<div class="code-block">
+<div class="file-header"><span class="fh-path">app/(marketing)/services/land-investments/page.tsx</span><span class="fh-lang">TSX</span></div>
+<pre><span class="k">import</span> <span class="t">type</span> { Metadata } <span class="k">from</span> <span class="s">'next'</span>
+<span class="k">import</span> Link <span class="k">from</span> <span class="s">'next/link'</span>
+<span class="k">import</span> { motion } <span class="k">from</span> <span class="s">'framer-motion'</span>
+<span class="k">import</span> SectionHeader <span class="k">from</span> <span class="s">'@/components/ui/SectionHeader'</span>
+<span class="k">import</span> JsonLD <span class="k">from</span> <span class="s">'@/components/seo/JsonLD'</span>
+<span class="k">import</span> GroundReportSignup <span class="k">from</span> <span class="s">'@/components/sections/GroundReportSignup'</span>
+<span class="k">import</span> CTASection <span class="k">from</span> <span class="s">'@/components/sections/CTASection'</span>
+<span class="k">import</span> FAQSection <span class="k">from</span> <span class="s">'@/components/sections/FAQSection'</span>
+
+<span class="k">export const</span> metadata: Metadata = {
+  title: <span class="s">'Land Investment Advisory Bangalore | Vedhara Group'</span>,
+  description: <span class="s">'Strategic land investment advisory in Bangalore growth corridors. Agricultural & residential land with full due diligence, legal brief, and 5-year appreciation analysis.'</span>,
+  alternates: { canonical: <span class="s">'https://vedharagroup.com/services/land-investments'</span> },
+}
+
+<span class="k">const</span> processSteps = [
+  { num: <span class="s">'01'</span>, title: <span class="s">'Corridor Intelligence Briefing'</span>, desc: <span class="s">'We share our Ground Report analysis for your target corridors — price trends, infrastructure triggers, and our 5-year outlook — before we show you a single property.'</span> },
+  { num: <span class="s">'02'</span>, title: <span class="s">'Legal Due Diligence'</span>, desc: <span class="s">'Every land parcel is reviewed for title clarity, encumbrance status, zone classification, survey sketch accuracy, and litigation history before we present it.'</span> },
+  { num: <span class="s">'03'</span>, title: <span class="s">'Site Visit & Verification'</span>, desc: <span class="s">'A guided physical visit to verify boundary stones, access road, water source, and actual field conditions against the sale deed description.'</span> },
+  { num: <span class="s">'04'</span>, title: <span class="s">'Valuation & Negotiation'</span>, desc: <span class="s">'We present comparable recent registrations in the same survey circle to anchor our price negotiation in data, not optimism.'</span> },
+  { num: <span class="s">'05'</span>, title: <span class="s">'Transaction & Registration'</span>, desc: <span class="s">'We coordinate with your property lawyer, manage the EC application, guide the payment schedule, and accompany you to registration.'</span> },
+]
+
+<span class="k">const</span> faqs = [
+  {
+    q: <span class="s">'What is agricultural land investment in Bangalore?'</span>,
+    a: <span class="s">'Agricultural land near Bangalore refers to parcels classified as farmland in growth corridors adjacent to upcoming infrastructure — airports, ring roads, industrial zones. These parcels historically appreciate 15–25% annually as zone conversion and infrastructure development drives demand. Vedhara Group identifies undervalued agricultural land with clear triggers before they peak.'</span>,
+  },
+  {
+    q: <span class="s">'How does Vedhara Group verify land titles?'</span>,
+    a: <span class="s">'Our legal brief process includes: a 13-year Encumbrance Certificate from the Sub-Registrar, original title deed chain verification, survey sketch comparison with physical boundaries, zone classification confirmation, and a litigation search at the district civil court.'</span>,
+  },
+  {
+    q: <span class="s">'What is the minimum land investment through Vedhara Group?'</span>,
+    a: <span class="s">'Land investments through Vedhara Group typically start from ₹25 lakhs for smaller agricultural parcels and ₹50 lakhs for residential plot investments in premium corridors. There is no upper limit for HNI portfolio clients.'</span>,
+  },
+  {
+    q: <span class="s">'How long should I hold a land investment near Bangalore?'</span>,
+    a: <span class="s">'We recommend a minimum 5-year holding period for land investments, with 7–10 years optimal for maximum appreciation. Corridor-level infrastructure triggers — metro completion, ring road, SEZ opening — typically catalyse the highest appreciation windows.'</span>,
+  },
+]
+
+<span class="k">const</span> serviceSchema = {
+  <span class="s">"@context"</span>: <span class="s">"https://schema.org"</span>,
+  <span class="s">"@type"</span>: <span class="s">"Service"</span>,
+  <span class="s">"name"</span>: <span class="s">"Land Investment Advisory"</span>,
+  <span class="s">"serviceType"</span>: <span class="s">"Real Estate Investment Advisory"</span>,
+  <span class="s">"provider"</span>: { <span class="s">"@id"</span>: <span class="s">"https://vedharagroup.com/#organization"</span> },
+  <span class="s">"areaServed"</span>: { <span class="s">"@type"</span>: <span class="s">"City"</span>, <span class="s">"name"</span>: <span class="s">"Bangalore"</span> },
+  <span class="s">"description"</span>: <span class="s">"Strategic land investment advisory in Bangalore growth corridors with full legal due diligence and market intelligence."</span>,
+}
+
+<span class="k">export default function</span> <span class="v">LandInvestmentsPage</span>() {
+  <span class="k">return</span> (
+    &lt;&gt;
+      &lt;JsonLD data={serviceSchema} /&gt;
+
+      {/* HERO */}
+      &lt;section className=<span class="s">"bg-navy-deep pt-32 pb-20 px-8 relative overflow-hidden"</span>&gt;
+        &lt;div className=<span class="s">"absolute inset-0"</span>
+          style={{ background: <span class="s">'radial-gradient(ellipse 60% 60% at 70% 50%, rgba(196,160,82,0.08) 0%, transparent 65%)'</span> }} /&gt;
+        &lt;div className=<span class="s">"max-w-[1400px] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"</span>&gt;
+          &lt;div&gt;
+            &lt;div className=<span class="s">"inline-flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase text-gold mb-6"</span>&gt;
+              &lt;Link href=<span class="s">"/services"</span> className=<span class="s">"hover:text-gold-bright transition-colors"</span>&gt;Services&lt;/Link&gt;
+              &lt;span className=<span class="s">"text-white/20"</span>&gt;/&lt;/span&gt;
+              Land Investments
+            &lt;/div&gt;
+            &lt;h1 className=<span class="s">"font-display text-[clamp(34px,5vw,60px)] font-semibold text-[#FDFAF5] leading-tight mb-5"</span>&gt;
+              The Oldest Investment.&lt;br /&gt;&lt;em className=<span class="s">"italic text-gold-bright"</span>&gt;The Wisest Decision.&lt;/em&gt;
+            &lt;/h1&gt;
+            &lt;p className=<span class="s">"text-[15px] font-light text-white/50 max-w-xl leading-[1.8] mb-8"</span>&gt;
+              Land is finite. And in India's growth corridors — near airports, infrastructure, and IT parks — agricultural and residential land has consistently outperformed every other asset class over 10-year horizons. We find the right land, verify every detail, and guide you to the right decision.
+            &lt;/p&gt;
+            &lt;div className=<span class="s">"flex gap-4 flex-wrap"</span>&gt;
+              &lt;Link href=<span class="s">"/contact"</span>
+                className=<span class="s">"bg-gradient-to-r from-gold-muted via-gold to-gold-bright text-navy-deep
+                  text-[11px] font-bold tracking-[0.12em] uppercase px-7 py-4 shadow-gold
+                  hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"</span>&gt;
+                Schedule Investment Consultation
+              &lt;/Link&gt;
+              &lt;Link href=<span class="s">"/market-intelligence/ground-report"</span>
+                className=<span class="s">"text-white/60 text-[11px] font-medium tracking-[0.1em] uppercase px-7 py-4
+                  border border-white/20 hover:border-gold hover:text-gold transition-all"</span>&gt;
+                Get Ground Report (Free)
+              &lt;/Link&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          {/* Key stats panel */}
+          &lt;div className=<span class="s">"grid grid-cols-2 gap-3"</span>&gt;
+            {[
+              [<span class="s">'15–25%'</span>, <span class="s">'Annual CAGR'</span>, <span class="s">'Growth corridor appreciation'</span>],
+              [<span class="s">'₹25L+'</span>, <span class="s">'Min. Investment'</span>, <span class="s">'Agricultural parcels'</span>],
+              [<span class="s">'5+ Years'</span>, <span class="s">'Optimal Hold'</span>, <span class="s">'Maximum appreciation window'</span>],
+              [<span class="s">'100%'</span>, <span class="s">'Legal Brief'</span>, <span class="s">'On every land parcel'</span>],
+            ].map(([num, label, sub]) => (
+              &lt;div key={label} className=<span class="s">"bg-white/5 border border-gold/15 p-5 hover:border-gold/30 transition-all"</span>&gt;
+                &lt;span className=<span class="s">"block font-display text-[28px] font-semibold text-gold-bright leading-none mb-1"</span>&gt;{num}&lt;/span&gt;
+                &lt;span className=<span class="s">"block text-[11px] font-medium text-white/60 mb-0.5"</span>&gt;{label}&lt;/span&gt;
+                &lt;span className=<span class="s">"text-[10px] text-white/30"</span>&gt;{sub}&lt;/span&gt;
+              &lt;/div&gt;
+            ))}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      {/* PROCESS */}
+      &lt;section className=<span class="s">"bg-pearl py-24 px-8"</span>&gt;
+        &lt;div className=<span class="s">"max-w-[1400px] mx-auto"</span>&gt;
+          &lt;SectionHeader eyebrow=<span class="s">"Our Process"</span> title=<span class="s">"The Vedhara land"</span> titleAccent=<span class="s">"investment process."</span>
+            description=<span class="s">"Five steps that ensure every land investment is legally sound, locationally superior, and positioned for long-term appreciation."</span> /&gt;
+          &lt;div className=<span class="s">"relative"</span>&gt;
+            &lt;div className=<span class="s">"absolute left-[19px] top-0 bottom-0 w-px bg-gradient-to-b from-gold/40 via-gold/20 to-transparent lg:block hidden"</span> /&gt;
+            &lt;div className=<span class="s">"space-y-0"</span>&gt;
+              {processSteps.map((step, i) => (
+                &lt;div key={step.num} className=<span class="s">"flex gap-8 py-8 border-b border-navy/6 last:border-b-0 group"</span>&gt;
+                  &lt;div className=<span class="s">"flex-shrink-0 w-10 h-10 bg-pearl border border-gold/25 flex items-center justify-center
+                    font-display text-[14px] italic text-gold group-hover:bg-navy group-hover:text-gold-bright
+                    transition-all duration-300"</span>&gt;
+                    {step.num}
+                  &lt;/div&gt;
+                  &lt;div&gt;
+                    &lt;h3 className=<span class="s">"font-display text-[18px] font-semibold text-navy mb-2"</span>&gt;{step.title}&lt;/h3&gt;
+                    &lt;p className=<span class="s">"text-[13.5px] font-light text-muted leading-[1.75] max-w-2xl"</span>&gt;{step.desc}&lt;/p&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              ))}
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      {/* FAQ — AI Optimised */}
+      &lt;FAQSection faqs={faqs} /&gt;
+      &lt;GroundReportSignup /&gt;
+      &lt;CTASection /&gt;
+    &lt;/&gt;
+  )
+}</pre>
+</div>
+</div>
+</div>
+
+<!-- ════════════════ P05 NRI DESK ════════════════ -->
+<div class="section" id="p05">
+<div class="sh">
+  <div class="sh-eye">Section P05</div>
+  <h2 class="sh-h">NRI Desk <em>Page</em></h2>
+  <p class="sh-p">Complete /nri-desk page with Trust Vault, process, country grid, and consultation booking.</p>
+</div>
+
+<div class="block">
+<div class="block-title">NRI Desk Page</div>
+<div class="code-block">
+<div class="file-header"><span class="fh-path">app/(marketing)/nri-desk/page.tsx</span><span class="fh-lang">TSX</span></div>
+<pre><span class="k">import</span> <span class="t">type</span> { Metadata } <span class="k">from</span> <span class="s">'next'</span>
+<span class="k">import</span> Link <span class="k">from</span> <span class="s">'next/link'</span>
+<span class="k">import</span> SectionHeader <span class="k">from</span> <span class="s">'@/components/ui/SectionHeader'</span>
+<span class="k">import</span> JsonLD <span class="k">from</span> <span class="s">'@/components/seo/JsonLD'</span>
+<span class="k">import</span> FAQSection <span class="k">from</span> <span class="s">'@/components/sections/FAQSection'</span>
+<span class="k">import</span> CTASection <span class="k">from</span> <span class="s">'@/components/sections/CTASection'</span>
+
+<span class="k">export const</span> metadata: Metadata = {
+  title: <span class="s">'NRI Property Investment India | Vedhara NRI Desk Bangalore'</span>,
+  description: <span class="s">'Invest in Indian real estate from abroad with complete confidence. Video walkthroughs, verified legal briefs, e-signature documentation, escrow arrangements. Vedhara NRI Trust Vault.'</span>,
+  alternates: { canonical: <span class="s">'https://vedharagroup.com/nri-desk'</span> },
+}
+
+<span class="k">const</span> trustVaultItems = [
+  { num: <span class="s">'01'</span>, title: <span class="s">'Verified Legal Brief'</span>, desc: <span class="s">'Title verification, encumbrance check, and zone classification delivered before any payment discussion. Before you even consider price.'</span> },
+  { num: <span class="s">'02'</span>, title: <span class="s">'Live Video Walkthrough'</span>, desc: <span class="s">'On-demand video tours of any property within 48 hours of your request. You see every corner before committing.'</span> },
+  { num: <span class="s">'03'</span>, title: <span class="s">'E-Signature Documentation'</span>, desc: <span class="s">'All paperwork executed digitally. No India trip required to complete your purchase.'</span> },
+  { num: <span class="s">'04'</span>, title: <span class="s">'Escrow Payment Option'</span>, desc: <span class="s">'Structured payment arrangements available for complete financial security on every NRI transaction.'</span> },
+  { num: <span class="s">'05'</span>, title: <span class="s">'Dedicated NRI Advisor'</span>, desc: <span class="s">'WhatsApp + email. Response within 4 hours. Weekend video calls Sat–Sun 10AM–4PM IST.'</span> },
+  { num: <span class="s">'06'</span>, title: <span class="s">'12-Month Post-Purchase Check-In'</span>, desc: <span class="s">'Personal call from our founder on the anniversary of your investment. We don't disappear after the deal.'</span> },
+]
+
+<span class="k">const</span> countries = [
+  { flag: <span class="s">'🇦🇪'</span>, name: <span class="s">'UAE'</span>, cities: <span class="s">'Dubai · Abu Dhabi · Sharjah'</span> },
+  { flag: <span class="s">'🇬🇧'</span>, name: <span class="s">'United Kingdom'</span>, cities: <span class="s">'London · Birmingham · Manchester'</span> },
+  { flag: <span class="s">'🇺🇸'</span>, name: <span class="s">'United States'</span>, cities: <span class="s">'New York · Bay Area · Houston'</span> },
+  { flag: <span class="s">'🇨🇦'</span>, name: <span class="s">'Canada'</span>, cities: <span class="s">'Toronto · Vancouver · Calgary'</span> },
+  { flag: <span class="s">'🇸🇬'</span>, name: <span class="s">'Singapore'</span>, cities: <span class="s">'Singapore City · Southeast Asia'</span> },
+]
+
+<span class="k">const</span> nriFaqs = [
+  { q: <span class="s">'How do NRIs buy property in India through Vedhara Group?'</span>,
+    a: <span class="s">'NRI clients use Vedhara\'s NRI Trust Vault process: a verified legal brief is shared before any payment discussion, live video walkthroughs are arranged within 48 hours, and all documentation is executed via e-signature without requiring an India trip. Weekend video consultations are available to match international time zones.'</span> },
+  { q: <span class="s">'Can NRIs buy agricultural land in India?'</span>,
+    a: <span class="s">'Under FEMA (Foreign Exchange Management Act), NRIs and PIOs can purchase residential and commercial property in India without RBI approval, but cannot purchase agricultural land, plantation property, or farmhouses. Vedhara Group guides NRI clients through the correct property categories available to them and the repatriation rules applicable.'</span> },
+  { q: <span class="s">'Is Power of Attorney required for NRI property purchase in India?'</span>,
+    a: <span class="s">'A notarised and apostilled Power of Attorney (POA) is required if the NRI cannot be present in India for the registration. Vedhara Group provides a standard POA format that has been reviewed by our property lawyers, and guides clients through the notarisation process in their country of residence.'</span> },
+]
+
+<span class="k">export default function</span> <span class="v">NRIDeskPage</span>() {
+  <span class="k">const</span> nriServiceSchema = {
+    <span class="s">"@context"</span>: <span class="s">"https://schema.org"</span>,
+    <span class="s">"@type"</span>: <span class="s">"Service"</span>,
+    <span class="s">"name"</span>: <span class="s">"NRI Property Investment Advisory"</span>,
+    <span class="s">"serviceType"</span>: <span class="s">"NRI Real Estate Advisory"</span>,
+    <span class="s">"provider"</span>: { <span class="s">"@id"</span>: <span class="s">"https://vedharagroup.com/#organization"</span> },
+    <span class="s">"description"</span>: <span class="s">"Dedicated NRI property investment service for overseas Indians. Video walkthroughs, legal briefs, e-signature documentation, and weekend video consultations."</span>,
+    <span class="s">"areaServed"</span>: [<span class="s">"AE"</span>, <span class="s">"GB"</span>, <span class="s">"US"</span>, <span class="s">"CA"</span>, <span class="s">"SG"</span>],
+  }
+
+  <span class="k">return</span> (
+    &lt;&gt;
+      &lt;JsonLD data={nriServiceSchema} /&gt;
+
+      {/* HERO */}
+      &lt;section className=<span class="s">"bg-navy-deep pt-32 pb-20 px-8 relative overflow-hidden"</span>&gt;
+        &lt;div className=<span class="s">"absolute inset-0"</span>
+          style={{ background: <span class="s">'radial-gradient(ellipse 50% 60% at 80% 50%, rgba(196,160,82,0.08) 0%, transparent 60%)'</span> }} /&gt;
+        &lt;div className=<span class="s">"max-w-[1400px] mx-auto relative z-10"</span>&gt;
+          &lt;div className=<span class="s">"inline-flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase text-gold mb-6"</span>&gt;
+            &lt;span className=<span class="s">"w-8 h-px bg-gold"</span> /&gt; NRI Desk
+          &lt;/div&gt;
+          &lt;h1 className=<span class="s">"font-display text-[clamp(34px,5vw,66px)] font-semibold text-[#FDFAF5] leading-tight mb-5 max-w-3xl"</span>&gt;
+            Investing from abroad?&lt;br /&gt;We built a desk &lt;em className=<span class="s">"italic text-gold-bright"</span>&gt;for you.&lt;/em&gt;
+          &lt;/h1&gt;
+          &lt;p className=<span class="s">"text-[15px] font-light text-white/45 max-w-xl leading-[1.8] mb-10"</span>&gt;
+            The Vedhara NRI Trust Vault — a documented, step-by-step process that solves every anxiety about investing in Indian real estate from thousands of miles away.
+          &lt;/p&gt;
+          &lt;div className=<span class="s">"flex gap-4 flex-wrap"</span>&gt;
+            &lt;Link href=<span class="s">"/contact?type=nri"</span>
+              className=<span class="s">"bg-gradient-to-r from-gold-muted via-gold to-gold-bright text-navy-deep
+                text-[11px] font-bold tracking-[0.12em] uppercase px-7 py-4 shadow-gold hover:-translate-y-0.5 transition-all"</span>&gt;
+              Book a Weekend Video Call
+            &lt;/Link&gt;
+            &lt;a href=<span class="s">"https://wa.me/919800000000?text=Hello%20Vedhara%20NRI%20Desk"</span>
+              className=<span class="s">"text-white/60 border border-white/20 text-[11px] font-medium tracking-[0.1em] uppercase px-7 py-4
+                hover:border-gold hover:text-gold transition-all"</span>&gt;
+              💬 WhatsApp NRI Desk
+            &lt;/a&gt;
+          &lt;/div&gt;
+          &lt;div className=<span class="s">"flex gap-6 mt-8 flex-wrap"</span>&gt;
+            {[<span class="s">'Sat–Sun Video Calls'</span>, <span class="s">'E-Signature Documentation'</span>, <span class="s">'Escrow Available'</span>].map(t => (
+              &lt;div key={t} className=<span class="s">"flex items-center gap-1.5 text-[11px] text-white/35"</span>&gt;
+                &lt;span className=<span class="s">"w-1 h-1 rounded-full bg-gold"</span> /&gt; {t}
+              &lt;/div&gt;
+            ))}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      {/* TRUST VAULT */}
+      &lt;section className=<span class="s">"bg-pearl py-24 px-8"</span>&gt;
+        &lt;div className=<span class="s">"max-w-[1400px] mx-auto"</span>&gt;
+          &lt;SectionHeader eyebrow=<span class="s">"The NRI Trust Vault"</span>
+            title=<span class="s">"6 commitments."</span> titleAccent=<span class="s">"Every NRI client."</span>
+            description=<span class="s">"Not promises. A documented process that every NRI client receives — without exception."</span> /&gt;
+          &lt;div className=<span class="s">"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-navy/8 border border-navy/8"</span>&gt;
+            {trustVaultItems.map(item => (
+              &lt;div key={item.num} className=<span class="s">"bg-pearl p-8 hover:bg-fog transition-colors duration-300"</span>&gt;
+                &lt;span className=<span class="s">"font-display text-[11px] font-semibold tracking-[0.12em] text-gold block mb-3"</span>&gt;{item.num}&lt;/span&gt;
+                &lt;h3 className=<span class="s">"font-display text-[17px] font-semibold text-navy mb-2"</span>&gt;{item.title}&lt;/h3&gt;
+                &lt;p className=<span class="s">"text-[13px] font-light text-muted leading-[1.7]"</span>&gt;{item.desc}&lt;/p&gt;
+              &lt;/div&gt;
+            ))}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      {/* COUNTRIES */}
+      &lt;section className=<span class="s">"bg-champagne py-20 px-8"</span>&gt;
+        &lt;div className=<span class="s">"max-w-[1400px] mx-auto"</span>&gt;
+          &lt;SectionHeader eyebrow=<span class="s">"Where Our NRI Clients Are"</span>
+            title=<span class="s">"Indian investors"</span> titleAccent=<span class="s">"across 5 continents."</span> centered /&gt;
+          &lt;div className=<span class="s">"grid grid-cols-2 md:grid-cols-5 gap-px bg-gold/20 border border-gold/20"</span>&gt;
+            {countries.map(c => (
+              &lt;div key={c.name} className=<span class="s">"bg-ivory text-center py-8 px-5 hover:bg-pearl transition-colors"</span>&gt;
+                &lt;span className=<span class="s">"text-[36px] block mb-3"</span>&gt;{c.flag}&lt;/span&gt;
+                &lt;div className=<span class="s">"font-semibold text-navy text-[13px] mb-1"</span>&gt;{c.name}&lt;/div&gt;
+                &lt;div className=<span class="s">"text-[11px] font-light text-muted"</span>&gt;{c.cities}&lt;/div&gt;
+              &lt;/div&gt;
+            ))}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      &lt;FAQSection faqs={nriFaqs} title=<span class="s">"NRI Frequently Asked Questions"</span> /&gt;
+
+      {/* FINAL CTA */}
+      &lt;section className=<span class="s">"bg-navy py-24 px-8 text-center relative overflow-hidden"</span>&gt;
+        &lt;div className=<span class="s">"absolute inset-0"</span>
+          style={{ background: <span class="s">'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(196,160,82,0.07) 0%, transparent 70%)'</span> }} /&gt;
+        &lt;div className=<span class="s">"relative z-10 max-w-2xl mx-auto"</span>&gt;
+          &lt;div className=<span class="s">"inline-flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase text-gold mb-5 justify-center"</span>&gt;
+            &lt;span className=<span class="s">"w-8 h-px bg-gold"</span> /&gt; Ready to Invest?
+          &lt;/div&gt;
+          &lt;h2 className=<span class="s">"font-display text-[clamp(30px,4vw,52px)] font-semibold text-[#FDFAF5] leading-tight mb-4"</span>&gt;
+            Book your &lt;em className=<span class="s">"italic text-gold-bright"</span>&gt;weekend consultation.&lt;/em&gt;
+          &lt;/h2&gt;
+          &lt;p className=<span class="s">"text-[14px] font-light text-white/40 mb-8 leading-[1.8]"</span>&gt;
+            Saturday and Sunday · 10AM–4PM IST. We match your timezone. No pressure, no pitch — just genuine guidance.
+          &lt;/p&gt;
+          &lt;Link href=<span class="s">"/contact?type=nri"</span>
+            className=<span class="s">"inline-block bg-gradient-to-r from-gold-muted via-gold to-gold-bright text-navy-deep
+              text-[11px] font-bold tracking-[0.12em] uppercase px-10 py-4 shadow-gold
+              hover:shadow-xl hover:-translate-y-0.5 transition-all"</span>&gt;
+            Book a Saturday / Sunday Call →
+          &lt;/Link&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+    &lt;/&gt;
+  )
+}</pre>
+</div>
+</div>
+</div>
+
+<!-- ════════════════ P06 CONTACT ════════════════ -->
+<div class="section" id="p06">
+<div class="sh">
+  <div class="sh-eye">Section P06</div>
+  <h2 class="sh-h">Contact <em>Page</em></h2>
+  <p class="sh-p">Complete /contact page with split layout, contact info, office hours, and lead capture form.</p>
+</div>
+
+<div class="block">
+<div class="block-title">FAQSection Reusable Component (used across all service pages)</div>
+<div class="code-block">
+<div class="file-header"><span class="fh-path">components/sections/FAQSection.tsx</span><span class="fh-lang">TSX</span></div>
+<pre><span class="s">'use client'</span>
+<span class="k">import</span> { useState } <span class="k">from</span> <span class="s">'react'</span>
+<span class="k">import</span> { motion, AnimatePresence } <span class="k">from</span> <span class="s">'framer-motion'</span>
+<span class="k">import</span> SectionHeader <span class="k">from</span> <span class="s">'@/components/ui/SectionHeader'</span>
+<span class="k">import</span> JsonLD <span class="k">from</span> <span class="s">'@/components/seo/JsonLD'</span>
+
+<span class="k">interface</span> FAQ { q: <span class="t">string</span>; a: <span class="t">string</span> }
+
+<span class="k">export default function</span> <span class="v">FAQSection</span>({ faqs, title }: { faqs: FAQ[], title?: <span class="t">string</span> }) {
+  <span class="k">const</span> [open, setOpen] = useState&lt;<span class="t">number</span> | <span class="k">null</span>&gt;(<span class="k">null</span>)
+
+  <span class="k">const</span> faqSchema = {
+    <span class="s">"@context"</span>: <span class="s">"https://schema.org"</span>,
+    <span class="s">"@type"</span>: <span class="s">"FAQPage"</span>,
+    <span class="s">"mainEntity"</span>: faqs.map(f => ({
+      <span class="s">"@type"</span>: <span class="s">"Question"</span>,
+      <span class="s">"name"</span>: f.q,
+      <span class="s">"acceptedAnswer"</span>: { <span class="s">"@type"</span>: <span class="s">"Answer"</span>, <span class="s">"text"</span>: f.a }
+    }))
+  }
+
+  <span class="k">return</span> (
+    &lt;section className=<span class="s">"bg-section-alt py-24 px-8"</span>&gt;
+      &lt;JsonLD data={faqSchema} /&gt;
+      &lt;div className=<span class="s">"max-w-[900px] mx-auto"</span>&gt;
+        &lt;SectionHeader eyebrow=<span class="s">"Frequently Asked Questions"</span>
+          title={title || <span class="s">"Questions we"</span>} titleAccent=<span class="s">"hear most often."</span> /&gt;
+        &lt;div className=<span class="s">"space-y-px border border-navy/8"</span>&gt;
+          {faqs.map((faq, i) => (
+            &lt;div key={i} className=<span class="s">"bg-pearl border-b border-navy/6 last:border-b-0"</span>&gt;
+              &lt;button
+                onClick={() => setOpen(open === i ? <span class="k">null</span> : i)}
+                className=<span class="s">"w-full flex items-center justify-between px-7 py-5 text-left hover:bg-fog transition-colors group"</span>
+              &gt;
+                &lt;span className=<span class="s">"font-display text-[16px] font-semibold text-navy pr-4 leading-tight group-hover:text-navy-mid"</span>&gt;
+                  {faq.q}
+                &lt;/span&gt;
+                &lt;span className={`text-gold text-xl flex-shrink-0 transition-transform duration-300 ${open === i ? <span class="s">'rotate-45'</span> : <span class="s">''</span>}`}&gt;
+                  +
+                &lt;/span&gt;
+              &lt;/button&gt;
+              &lt;AnimatePresence&gt;
+                {open === i &amp;&amp; (
+                  &lt;motion.div
+                    initial={{ height: <span class="v">0</span>, opacity: <span class="v">0</span> }}
+                    animate={{ height: <span class="s">'auto'</span>, opacity: <span class="v">1</span> }}
+                    exit={{ height: <span class="v">0</span>, opacity: <span class="v">0</span> }}
+                    transition={{ duration: <span class="v">0.3</span>, ease: <span class="s">'easeInOut'</span> }}
+                    className=<span class="s">"overflow-hidden"</span>
+                  &gt;
+                    &lt;p className=<span class="s">"px-7 pb-6 text-[13.5px] font-light text-muted leading-[1.8]"</span>&gt;
+                      {faq.a}
+                    &lt;/p&gt;
+                  &lt;/motion.div&gt;
+                )}
+              &lt;/AnimatePresence&gt;
+            &lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  )
+}</pre>
+</div>
+</div>
+</div>
+
+<!-- ════════════════ P07 GSAP ════════════════ -->
+<div class="section" id="p07">
+<div class="sh">
+  <div class="sh-eye">Section P07</div>
+  <h2 class="sh-h">GSAP <em>Scroll Animations</em></h2>
+  <p class="sh-p">GSAP ScrollTrigger implementation for parallax hero, gold line draws, and section reveals.</p>
+</div>
+
+<div class="block">
+<div class="block-title">useGSAPAnimations Hook</div>
+<div class="code-block">
+<div class="file-header"><span class="fh-path">lib/hooks/useGSAPAnimations.ts</span><span class="fh-lang">TypeScript</span></div>
+<pre><span class="s">'use client'</span>
+<span class="k">import</span> { useEffect } <span class="k">from</span> <span class="s">'react'</span>
+<span class="k">import</span> { gsap } <span class="k">from</span> <span class="s">'gsap'</span>
+<span class="k">import</span> { ScrollTrigger } <span class="k">from</span> <span class="s">'gsap/ScrollTrigger'</span>
+
+gsap.registerPlugin(ScrollTrigger)
+
+<span class="k">export function</span> <span class="v">useGSAPScrollReveal</span>() {
+  useEffect(() => {
+    <span class="c">// Batch reveal animation for .gsap-reveal elements</span>
+    ScrollTrigger.batch(<span class="s">'.gsap-reveal'</span>, {
+      onEnter: batch => gsap.fromTo(batch,
+        { opacity: <span class="v">0</span>, y: <span class="v">30</span> },
+        { opacity: <span class="v">1</span>, y: <span class="v">0</span>, duration: <span class="v">0.7</span>, ease: <span class="s">'power3.out'</span>, stagger: <span class="v">0.12</span> }
+      ),
+      once: <span class="k">true</span>,
+      start: <span class="s">'top 88%'</span>,
+    })
+
+    <span class="c">// Gold line SVG draw animation</span>
+    gsap.utils.toArray&lt;SVGPathElement&gt;(<span class="s">'.gsap-gold-line'</span>).forEach(line => {
+      <span class="k">const</span> length = line.getTotalLength()
+      gsap.set(line, { strokeDasharray: length, strokeDashoffset: length })
+      gsap.to(line, {
+        strokeDashoffset: <span class="v">0</span>,
+        duration: <span class="v">1.2</span>,
+        ease: <span class="s">'power2.inOut'</span>,
+        scrollTrigger: {
+          trigger: line,
+          start: <span class="s">'top 85%'</span>,
+          once: <span class="k">true</span>,
+        }
+      })
+    })
+
+    <span class="c">// Counter number animate</span>
+    gsap.utils.toArray&lt;HTMLElement&gt;(<span class="s">'.gsap-counter'</span>).forEach(el => {
+      <span class="k">const</span> target = parseFloat(el.dataset.target || <span class="s">'0'</span>)
+      <span class="k">const</span> suffix = el.dataset.suffix || <span class="s">''</span>
+      <span class="k">const</span> decimals = parseInt(el.dataset.decimals || <span class="s">'0'</span>)
+      gsap.fromTo({ val: <span class="v">0</span> }, { val: target },
+        {
+          duration: <span class="v">1.8</span>,
+          ease: <span class="s">'power3.out'</span>,
+          onUpdate: <span class="k">function</span>() { el.textContent = decimals ? this.targets()[<span class="v">0</span>].val.toFixed(decimals) + suffix : Math.floor(this.targets()[<span class="v">0</span>].val) + suffix },
+          scrollTrigger: { trigger: el, start: <span class="s">'top 80%'</span>, once: <span class="k">true</span> },
+        }
+      )
+    })
+
+    <span class="k">return</span> () => ScrollTrigger.getAll().forEach(t => t.kill())
+  }, [])
+}
+
+<span class="k">export function</span> <span class="v">useHeroParallax</span>() {
+  useEffect(() => {
+    <span class="c">// Background parallax on hero</span>
+    gsap.to(<span class="s">'.hero-parallax-bg'</span>, {
+      y: <span class="s">'25%'</span>,
+      ease: <span class="s">'none'</span>,
+      scrollTrigger: {
+        trigger: <span class="s">'.hero-section'</span>,
+        start: <span class="s">'top top'</span>,
+        end: <span class="s">'bottom top'</span>,
+        scrub: <span class="k">true</span>,
+      }
+    })
+
+    <span class="c">// Text moves up at 0.1x scroll rate (slower than bg = parallax depth)</span>
+    gsap.to(<span class="s">'.hero-parallax-text'</span>, {
+      y: <span class="s">'10%'</span>,
+      ease: <span class="s">'none'</span>,
+      scrollTrigger: {
+        trigger: <span class="s">'.hero-section'</span>,
+        start: <span class="s">'top top'</span>,
+        end: <span class="s">'bottom top'</span>,
+        scrub: <span class="k">true</span>,
+      }
+    })
+
+    <span class="k">return</span> () => ScrollTrigger.getAll().forEach(t => t.kill())
+  }, [])
+}</pre>
+</div>
+</div>
+</div>
+
+<!-- ════════════════ P08 MOBILE ════════════════ -->
+<div class="section" id="p08">
+<div class="sh">
+  <div class="sh-eye">Section P08</div>
+  <h2 class="sh-h">Mobile <em>Optimisation</em></h2>
+  <p class="sh-p">Sticky mobile CTA bar, touch-optimised cards, performance budget, and mobile-specific CSS.</p>
+</div>
+
+<div class="block">
+<div class="block-title">Mobile Sticky CTA Bar + Mobile CSS</div>
+<div class="code-block">
+<div class="file-header"><span class="fh-path">components/ui/MobileCTABar.tsx</span><span class="fh-lang">TSX</span></div>
+<pre><span class="s">'use client'</span>
+<span class="k">import</span> { useState, useEffect } <span class="k">from</span> <span class="s">'react'</span>
+<span class="k">import</span> Link <span class="k">from</span> <span class="s">'next/link'</span>
+<span class="k">import</span> { motion, AnimatePresence } <span class="k">from</span> <span class="s">'framer-motion'</span>
+
+<span class="k">export default function</span> <span class="v">MobileCTABar</span>() {
+  <span class="k">const</span> [visible, setVisible] = useState(<span class="k">false</span>)
+  <span class="k">const</span> [dismissed, setDismissed] = useState(<span class="k">false</span>)
+
+  useEffect(() => {
+    <span class="k">const</span> handler = () => setVisible(window.scrollY > <span class="v">300</span>)
+    window.addEventListener(<span class="s">'scroll'</span>, handler, { passive: <span class="k">true</span> })
+    <span class="k">return</span> () => window.removeEventListener(<span class="s">'scroll'</span>, handler)
+  }, [])
+
+  <span class="k">return</span> (
+    &lt;AnimatePresence&gt;
+      {visible &amp;&amp; !dismissed &amp;&amp; (
+        &lt;motion.div
+          initial={{ y: <span class="v">80</span> }} animate={{ y: <span class="v">0</span> }} exit={{ y: <span class="v">80</span> }}
+          transition={{ duration: <span class="v">0.3</span>, ease: <span class="s">'easeOut'</span> }}
+          className=<span class="s">"fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-pearl border-t border-navy/12
+            px-4 py-3 flex gap-2 shadow-[0_-8px_32px_rgba(27,42,74,0.12)]"</span>
+        &gt;
+          &lt;a href=<span class="s">"https://wa.me/919800000000?text=Hello%20Vedhara%20Group!"</span>
+            target=<span class="s">"_blank"</span> rel=<span class="s">"noopener noreferrer"</span>
+            className=<span class="s">"flex-1 bg-[#25D366] text-white text-[11px] font-bold tracking-wider uppercase
+              py-3 flex items-center justify-center gap-1.5 min-h-[44px]"</span>
+          &gt;
+            💬 WhatsApp
+          &lt;/a&gt;
+          &lt;a href=<span class="s">"tel:+919800000000"</span>
+            className=<span class="s">"flex-1 bg-navy text-white text-[11px] font-bold tracking-wider uppercase
+              py-3 flex items-center justify-center gap-1.5 min-h-[44px]"</span>
+          &gt;
+            📞 Call Now
+          &lt;/a&gt;
+          &lt;Link href=<span class="s">"/contact"</span>
+            className=<span class="s">"flex-1 bg-gold text-navy-deep text-[11px] font-bold tracking-wider uppercase
+              py-3 flex items-center justify-center min-h-[44px]"</span>
+          &gt;
+            Enquire
+          &lt;/Link&gt;
+        &lt;/motion.div&gt;
+      )}
+    &lt;/AnimatePresence&gt;
+  )
+}</pre>
+</div>
+</div>
+
+<div class="block">
+<div class="block-title">Mobile Performance Budget & Checklist</div>
+<table class="tbl">
+  <thead><tr><th>Metric</th><th>Target</th><th>How to Achieve</th><th>Check</th></tr></thead>
+  <tbody>
+    <tr><td class="tk">First Contentful Paint</td><td>&lt; 1.8s</td><td>Critical CSS inlined, fonts preconnect, no render-blocking JS, server components for static content</td><td class="tg">Pre-launch</td></tr>
+    <tr><td class="tk">Largest Contentful Paint</td><td>&lt; 2.5s</td><td>Hero image with priority, Three.js lazy loaded after FCP, WebP/AVIF images, preloaded hero font</td><td class="tg">Pre-launch</td></tr>
+    <tr><td class="tk">Cumulative Layout Shift</td><td>&lt; 0.1</td><td>All images with explicit width/height, font-display:swap, no dynamic ad insertions</td><td class="tg">Pre-launch</td></tr>
+    <tr><td class="tk">Total Bundle Size</td><td>&lt; 200KB gzipped initial</td><td>Code splitting per route, Three.js dynamic import, heavy libs deferred, next/dynamic for 3D</td><td class="tg">Build check</td></tr>
+    <tr><td class="tk">Touch Target Size</td><td>min 44×44px</td><td>All buttons min-height:44px, nav items padded, mobile CTAs full-width</td><td class="tg">Manual test</td></tr>
+    <tr><td class="tk">3G Simulation</td><td>Usable in &lt; 5s</td><td>Service Worker caches shell, critical assets preloaded, animations disabled on slow connection</td><td class="tg">DevTools throttle</td></tr>
+    <tr><td class="tk">Animations on Mobile</td><td>Simplified</td><td>prefers-reduced-motion respected, Three.js replaced with CSS on mobile, GSAP disabled if slow device</td><td class="tg">Test on real device</td></tr>
+    <tr><td class="tk">Font loading</td><td>No FOUT</td><td>font-display:swap on all Google Fonts, preconnect to fonts.googleapis.com in &lt;head&gt;</td><td class="tg">Lighthouse</td></tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+<!-- ════════════════ P09 LAUNCH PLAYBOOK ════════════════ -->
+<div class="section" id="p09">
+<div class="sh">
+  <div class="sh-eye">Section P09</div>
+  <h2 class="sh-h">Launch <em>Playbook</em></h2>
+  <p class="sh-p">Complete step-by-step launch sequence — from repository setup to first lead — with exact commands and timelines.</p>
+</div>
+
+<div class="block">
+<div class="block-title">Complete Launch Sequence</div>
+<table class="tbl">
+  <thead><tr><th>Day</th><th>Task</th><th>Command / Action</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td class="tk">D-1: Setup</td><td>Create GitHub repository</td><td>git init → create vedhara-group repo on GitHub → push initial commit</td><td class="tg">□ Day 1</td></tr>
+    <tr><td class="tk">D-1: Setup</td><td>Connect to Vercel</td><td>vercel.com/new → import GitHub repo → framework: Next.js → deploy</td><td class="tg">□ Day 1</td></tr>
+    <tr><td class="tk">D-1: Setup</td><td>Create Sanity project</td><td>npm create sanity@latest → project name: vedhara-group → dataset: production</td><td class="tg">□ Day 1</td></tr>
+    <tr><td class="tk">D-1: Setup</td><td>Create Vercel KV store</td><td>Vercel dashboard → Storage → Create → KV → name: vedhara-kv → connect to project</td><td class="tg">□ Day 1</td></tr>
+    <tr><td class="tk">D-1: Setup</td><td>Configure Resend domain</td><td>resend.com → Domains → add vedharagroup.com → add DNS records (SPF, DKIM, DMARC)</td><td class="tg">□ Day 1</td></tr>
+    <tr><td class="tk">D-2: Config</td><td>Add all env variables to Vercel</td><td>Vercel → Settings → Env Vars → add all from .env.example</td><td class="tg">□ Day 2</td></tr>
+    <tr><td class="tk">D-2: Config</td><td>Configure custom domain</td><td>Vercel → Settings → Domains → add vedharagroup.com → update DNS at registrar</td><td class="tg">□ Day 2</td></tr>
+    <tr><td class="tk">D-3: Content</td><td>Add logo files to /public/logo/</td><td>Upload: vedhara-group-logo.png (color) + vedhara-group-logo-white.png (white) + favicon.ico</td><td class="tg">□ Day 3</td></tr>
+    <tr><td class="tk">D-3: Content</td><td>Add OG image to /public/og/</td><td>Create 1200×630px image: navy background, logo, tagline. Save as vedhara-og-default.jpg</td><td class="tg">□ Day 3</td></tr>
+    <tr><td class="tk">D-4: CMS</td><td>Enter first 10 properties in Sanity Studio</td><td>vedharagroup.com/studio → Properties → Add New → fill all fields including legalBrief</td><td class="tg">□ Day 4</td></tr>
+    <tr><td class="tk">D-4: CMS</td><td>Enter 3 testimonials</td><td>Sanity Studio → Testimonials → add real client testimonials (get permission first)</td><td class="tg">□ Day 4</td></tr>
+    <tr><td class="tk">D-5: SEO</td><td>Verify domain in Google Search Console</td><td>search.google.com/search-console → Add property → URL prefix → verify via DNS TXT record</td><td class="tg">□ Day 5</td></tr>
+    <tr><td class="tk">D-5: SEO</td><td>Submit sitemap to GSC</td><td>GSC → Sitemaps → Enter: https://vedharagroup.com/sitemap.xml → Submit</td><td class="tg">□ Day 5</td></tr>
+    <tr><td class="tk">D-5: SEO</td><td>Set up Google Analytics 4</td><td>analytics.google.com → Create property → install Measurement ID in NEXT_PUBLIC_GA_ID</td><td class="tg">□ Day 5</td></tr>
+    <tr><td class="tk">D-6: Quality</td><td>Run Lighthouse audit</td><td>Chrome DevTools → Lighthouse → Mobile → target 95+ Performance, 100 SEO</td><td class="tg">□ D-6</td></tr>
+    <tr><td class="tk">D-6: Quality</td><td>Test all forms end-to-end</td><td>Submit enquiry form → check advisor email. Subscribe to Ground Report → check inbox.</td><td class="tg">□ D-6</td></tr>
+    <tr><td class="tk">D-6: Quality</td><td>Test on real mobile device (375px)</td><td>Check all pages on iPhone/Android. Verify WhatsApp opens. Check sticky CTA bar works.</td><td class="tg">□ D-6</td></tr>
+    <tr><td class="tk">D-7: Launch</td><td>Claim Google Business Profile</td><td>business.google.com → add RERA, phone, address, hours, 15+ photos, services</td><td class="tg">□ Launch Day</td></tr>
+    <tr><td class="tk">D-7: Launch</td><td>Publish first 4 blog posts</td><td>Sanity Studio → Blog Posts → publish pre-written posts in categories: Real Estate, NRI, Market Trends, Legal Guide</td><td class="tg">□ Launch Day</td></tr>
+    <tr><td class="tk">D-7: Launch</td><td>Launch social announcement</td><td>LinkedIn: founder post. Instagram: announcement reel. WhatsApp broadcast to network. Email to personal contacts.</td><td class="tg">□ Launch Day</td></tr>
+  </tbody>
+</table>
+
+<div class="block-title">Quick Start Dev Commands</div>
+<div class="code-block">
+<div class="file-header"><span class="fh-path">Terminal Commands</span><span class="fh-lang">Shell</span></div>
+<pre><span class="c"># 1. Clone and install</span>
+git clone https://github.com/yourusername/vedhara-group.git
+cd vedhara-group
+npm install
+
+<span class="c"># 2. Copy env template</span>
+cp .env.example .env.local
+<span class="c"># → Fill in all values in .env.local</span>
+
+<span class="c"># 3. Run development server</span>
+npm run dev
+<span class="c"># → Opens http://localhost:3000</span>
+
+<span class="c"># 4. Run Sanity Studio (separate terminal)</span>
+cd studio && npm run dev
+<span class="c"># → Opens http://localhost:3333</span>
+
+<span class="c"># 5. Build for production</span>
+npm run build
+<span class="c"># → Generates .next/ + sitemap.xml</span>
+
+<span class="c"># 6. Deploy to Vercel (automatic via GitHub push)</span>
+git add . && git commit -m "feat: initial production build"
+git push origin main
+<span class="c"># → Vercel auto-deploys to vedharagroup.com</span>
+
+<span class="c"># 7. Check build output size</span>
+npx next build --debug
+<span class="c"># → Review bundle sizes, flag anything >50KB</span></pre>
+</div>
+</div>
+</div>
+
+<!-- ════════════════ P10 MASTER SUMMARY ════════════════ -->
+<div class="section" id="p10">
+<div class="sh">
+  <div class="sh-eye">Section P10</div>
+  <h2 class="sh-h">Master <em>Summary</em></h2>
+  <p class="sh-p">Everything delivered across all three parts of the Vedhara Group website strategy and codebase.</p>
+</div>
+
+<div class="block">
+<div class="block-title">Complete Deliverable Index — All 3 Parts</div>
+<div class="g2">
+  <div class="card card-navy">
+    <div class="cl">Part I — Master Strategy</div>
+    <div class="ct">vedhara_master_strategy_complete.html</div>
+    <div class="cb">
+      12 sections: Design system with brand colour palette (6 tokens + rationale) · Typography scale · UI component specs · Animation framework · Architecture diagram · Complete sitemap (27 pages) · 4 user journeys · Full homepage wireframe · Word-for-word copy for all pages · 20 commercial keywords with volumes · Meta titles + descriptions for every page · Technical SEO checklist · 8 AI-optimised FAQ clusters · 4 semantic content clusters · Organization schema JSON-LD · 6 schema types mapped to pages · Lead capture strategy · 6 conversion touchpoints · Chatbot flow matrix · 5-email nurture sequence · 100 blog topics · Next.js folder structure · Tailwind config · Vercel deployment settings · 5-year scalability roadmap
+    </div>
+  </div>
+  <div class="card card-navy">
+    <div class="cl">Part II — Next.js Codebase</div>
+    <div class="ct">vedhara_nextjs_codebase.html</div>
+    <div class="cb">
+      10 sections: Navbar.tsx (sticky, scroll-aware, mobile menu) · PropertyCard.tsx (3D tilt, mouse-follow) · StatCounter.tsx (intersection observer counter) · SectionHeader.tsx (Framer Motion reveal) · WhatsAppButton.tsx (context-aware, pre-filled messages) · Footer.tsx (full brand) · app/layout.tsx (metadata, GA4, fonts) · app/page.tsx (homepage async RSC) · projects/[slug]/page.tsx (ISR, dynamic) · enquiry API route (rate limiting, email) · ground-report API (KV deduplication) · chatbot API (state machine, lead scoring) · Blog schemas (Sanity v3) · testimonial + team schemas · GROQ queries · JsonLD component · Organization schema · robots.ts (GPTBot allowed) · sitemap.ts (dynamic) · HeroCityscape.tsx (Three.js R3F) · Chatbot.tsx (UI widget, full flow) · EnquiryForm.tsx (validation, GA4 events) · GroundReportWelcomeEmail.tsx (React Email) · globals.css (all brand utilities) · package.json · .env.example
+    </div>
+  </div>
+  <div class="card card-gold">
+    <div class="cl">Part III — All Sections & Final</div>
+    <div class="ct">vedhara_implementation_part3.html (this file)</div>
+    <div class="cb">
+      10 sections: HeroSection.tsx (lazy Three.js, staggered reveal, scroll indicator) · TrustBar.tsx (GPU-accelerated marquee) · ServicesGrid.tsx (hover states, navy transform) · StatsSection.tsx · GroundReportSignup.tsx (3D tilt mock, form) · Blog listing page (category filter, ISR) · Blog post page (PortableText, rich content, author bio, related posts) · Land Investments service page (template for all 6 service pages) · NRI Desk page (Trust Vault, countries, FAQ, booking CTA) · FAQSection.tsx (accordion, FAQ schema) · useGSAPAnimations hook (batch reveal, SVG draw, parallax) · MobileCTABar.tsx (WhatsApp + Call + Enquire) · Mobile performance budget · Complete 20-step launch sequence with commands
+    </div>
+  </div>
+  <div class="card">
+    <div class="cl">Website + Inner Pages HTML</div>
+    <div class="ct">vedhara_website_v2.html + vedhara_inner_pages.html</div>
+    <div class="cb">
+      Complete visual prototype: Homepage (all sections, 3D hero, marquee, Ground Report) + Properties listing (filter sidebar, grid/list view, pagination) + Property detail (gallery, specs, legal brief, sticky enquiry form) + About page (founder, timeline, values grid) + NRI Desk (Trust Vault, process, countries) + Contact (split layout, office hours, complete form, map)
+    </div>
+  </div>
+</div>
+
+<div class="block">
+<div class="block-title">What to Do With These Files — Handoff to Developer</div>
+<table class="tbl">
+  <thead><tr><th>File</th><th>Share With</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td class="tk">vedhara_master_strategy_complete.html</td><td>Business owner + developer</td><td>The strategy bible — SEO brief, content, schema, sitemap, all decisions</td></tr>
+    <tr><td class="tk">vedhara_website_v2.html</td><td>Designer + developer</td><td>Visual prototype — exact design, colors, layout, components to replicate in Next.js</td></tr>
+    <tr><td class="tk">vedhara_inner_pages.html</td><td>Designer + developer</td><td>All inner page designs (Properties, Detail, About, NRI, Contact)</td></tr>
+    <tr><td class="tk">vedhara_nextjs_codebase.html</td><td>Developer</td><td>All production code — copy components directly into the Next.js project</td></tr>
+    <tr><td class="tk">vedhara_implementation_part3.html (this)</td><td>Developer</td><td>Remaining components, blog system, GSAP hooks, mobile bar, launch commands</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="block">
+<div class="block-title">Month-by-Month Traffic & Revenue Projections</div>
+<table class="tbl">
+  <thead><tr><th>Month</th><th>Organic Sessions</th><th>Email Subscribers</th><th>Enquiries</th><th>Revenue Target</th></tr></thead>
+  <tbody>
+    <tr><td class="tk">Month 1 (Launch)</td><td>200–400</td><td>100–200</td><td>10–20</td><td>₹2–5L (personal network)</td></tr>
+    <tr><td class="tk">Month 3</td><td>600–1,000</td><td>400–600</td><td>25–40</td><td>₹5–10L</td></tr>
+    <tr><td class="tk">Month 6</td><td>1,500–2,500</td><td>800–1,200</td><td>50–80</td><td>₹10–18L</td></tr>
+    <tr><td class="tk">Month 9</td><td>2,500–4,000</td><td>1,500–2,000</td><td>80–120</td><td>₹15–25L</td></tr>
+    <tr><td class="tk">Month 12</td><td>4,000–6,000</td><td>2,200–2,800</td><td>100–150</td><td>₹20–35L</td></tr>
+    <tr><td class="tk">Year 2</td><td>8,000–15,000</td><td>4,000–6,000</td><td>200–300</td><td>₹50L–1Cr/month</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="quote">
+  <div class="qt">The website is not a brochure. It is Vedhara's most powerful sales advisor — one that works 24/7, speaks to 10,000 people simultaneously, and never forgets to follow up. Build it with that ambition. Launch it with that intention. The ground is ready.</div>
+</div>
+
+<!-- FINAL DARK SUMMARY -->
+<div style="background:var(--navy2);border-radius:2px;padding:3rem;margin-top:2rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(196,160,82,0.06) 0%,transparent 70%);"></div>
+  <div style="position:relative;z-index:1;text-align:center;">
+    <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;">Complete Vedhara Group Digital Strategy</div>
+    <div style="font-family:var(--ff);font-size:clamp(26px,4vw,42px);font-weight:600;color:#FDFAF5;line-height:1.05;margin-bottom:1.5rem;letter-spacing:-.01em;">Everything delivered.<br><em style="font-style:italic;color:var(--gold2);">Now build Vedhara.</em></div>
+    <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(196,160,82,0.3),transparent);width:200px;margin:0 auto 2rem;"></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.25rem;margin-bottom:2rem;">
+      <div><div style="font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(232,234,240,.3);margin-bottom:4px;">Files Delivered</div><div style="font-family:var(--ff);font-size:22px;font-weight:600;color:var(--gold2);">5 Documents</div></div>
+      <div><div style="font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(232,234,240,.3);margin-bottom:4px;">Sections Covered</div><div style="font-family:var(--ff);font-size:22px;font-weight:600;color:var(--gold2);">32 Sections</div></div>
+      <div><div style="font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(232,234,240,.3);margin-bottom:4px;">Components</div><div style="font-family:var(--ff);font-size:22px;font-weight:600;color:var(--gold2);">40+ Files</div></div>
+      <div><div style="font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(232,234,240,.3);margin-bottom:4px;">Blog Topics</div><div style="font-family:var(--ff);font-size:22px;font-weight:600;color:var(--gold2);">100 Topics</div></div>
+      <div><div style="font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(232,234,240,.3);margin-bottom:4px;">Keywords Mapped</div><div style="font-family:var(--ff);font-size:22px;font-weight:600;color:var(--gold2);">20 Primary</div></div>
+      <div><div style="font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(232,234,240,.3);margin-bottom:4px;">Schemas Written</div><div style="font-family:var(--ff);font-size:22px;font-weight:600;color:var(--gold2);">12 Types</div></div>
+    </div>
+    <div style="font-family:'EB Garamond',serif;font-size:17px;font-style:italic;color:rgba(232,234,240,.4);line-height:1.7;max-width:500px;margin:0 auto;">
+      "The earth does not ask you whether you are ready.<br>
+      It asks you whether you are worthy.<br><br>
+      Build Vedhara worthy of the ground it stands on —<br>
+      and it will stand forever."<br><br>
+      <span style="font-style:normal;font-size:13px;letter-spacing:2px;color:var(--gold);">Wisdom Rooted. Futures Built.</span>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="doc-footer">
+  <div class="df-logo"><em>VED</em>HARA GROUP</div>
+  <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(196,160,82,.35);display:block;margin:.25rem 0 1rem;">Wisdom Rooted · Futures Built</div>
+  <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(196,160,82,.25),transparent);width:160px;margin:0 auto 1rem;"></div>
+  <div class="df-copy">© 2026 Vedhara Group Pvt. Ltd. · Part III — Final Implementation<br>All Sections · Blog System · Service Pages · NRI Desk · GSAP · Mobile · Launch Playbook</div>
+</div>
+
+<script>
+document.querySelectorAll('.tb').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tb').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('on'));
+    const t = document.getElementById(btn.dataset.s);
+    if(t){ t.classList.add('on'); window.scrollTo({top:document.getElementById('tnav').offsetTop,behavior:'smooth'}); }
+  });
+});
+</script>
+</body>
+</html>
